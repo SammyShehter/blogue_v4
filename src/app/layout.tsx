@@ -1,6 +1,6 @@
 import type {Metadata} from "next"
 import {Inter, Manrope} from "next/font/google"
-import "./globals.css"
+import "@/styles/globals.css"
 import siteMetaData from "@/utils/siteMetaData"
 import Script from "next/script"
 import {Header} from "@/components/Header"
@@ -66,13 +66,13 @@ export default function RootLayout({children}: {children: any}) {
               <Script>
                 document.documentElement.classList.add('dark')
               </Script>
-                {/* <Script id="theme-switcher" strategy="beforeInteractive">
+                <Script id="theme-switcher" strategy="beforeInteractive">
                     {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                       document.documentElement.classList.add('dark')
                     } else {
                       document.documentElement.classList.remove('dark')
                     }`}
-                </Script> */}
+                </Script>
                 <Header />
                 {children}
                 <Footer />

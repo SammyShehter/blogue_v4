@@ -2,24 +2,25 @@ import {GetServerSideProps} from "next"
 import {parse} from "cookie"
 import {hashString} from "@/utils/common"
 import redisService from "@/services/redis.service"
+import { ErrorCodes } from "@/utils/errorCodes"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const cookies = context.req.headers.cookie
-        ? parse(context.req.headers.cookie)
-        : {}
-    const token = cookies.token
-
-    const hashed = hashString(token)
-
-    console.log(hashed)
-
-    const answer = await redisService.get(`user:${hashed}`)
-
-    console.log(answer)
-
-    const validSession = answer
-
-    if (!validSession) {
+    try {
+        const cookies = context.req.headers.cookie
+            ? parse(context.req.headers.cookie)
+            : {}
+        const token = cookies.token
+        if (!token) {
+            throw ErrorCodes.TOKEN_ABSENT
+        }
+        const hashed = hashString(token)
+        const validSession = await redisService.get(`user:${hashed}`)
+        if(!validSession) {
+            throw ErrorCodes.USER_NOT_FOUND
+        }
+        return {props: {validSession}}
+    } catch (error) {
+        console.log("admin.getServerSideProps", error)
         return {
             redirect: {
                 destination: "/login",
@@ -27,14 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         }
     }
-
-    return {props: {validSession}}
 }
 
 export default function AdminPage({validSession}: any) {
-    if (!validSession) {
-        return <div>Access Denied</div>
-    }
-
     return <div>Welcome to the Admin Page</div>
 }

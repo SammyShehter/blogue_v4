@@ -1,7 +1,10 @@
 "use client"
+import { useRouter } from "next/router"
 import {useState} from "react"
 
+
 export default function Login() {
+    const router = useRouter()
     const [creds, setCreds] = useState({username: "", password: ""})
     const login = async ({
         username,
@@ -14,7 +17,7 @@ export default function Login() {
             const response = await fetch("/api/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(creds),
+                body: JSON.stringify({username, password}),
             })
 
             if (response.ok) {
@@ -37,7 +40,7 @@ export default function Login() {
         const answer = await login(creds)
         console.log('redirecting now', answer)
         if (answer === "ok") {
-            console.log('okokok')
+            router.push('/admin')
         }
     }
 
