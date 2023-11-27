@@ -1,19 +1,23 @@
 import mongoose, {Schema, SchemaTypes} from "mongoose"
 import EventEmitter from "events"
+import { Post } from "@/types/services/mongo.types"
 
 class MongooseService {
     constructor() {
         console.log("MongooseService instance created")
     }
 
-    private userSchema = new Schema<Post>(
+    private postSchema = new Schema<Post>(
         {
-            content: {type: String, required: true, unique: true}
+            content: {type: String, required: true, unique: true},
+            author: {type: String, required: true},
+            category: {type: String, required: true},
+            slug: {type: String, }
         },
         {timestamps: true, versionKey: false}
     )
 
-    private userStorage = mongoose.model<User>("users", this.userSchema)
+    private postStorage = mongoose.model<Post>("posts", this.postSchema)
 
     connectWithRetry = (
         eventEmmiter: EventEmitter,
@@ -47,18 +51,11 @@ class MongooseService {
             })
     }
 
-    findRole = async (value: string): Promise<Role> => {
-        const res = await this.roleStorage.findOne({value}, {value: 0}).exec()
-        return res
-    }
+    findPostsByAuthor = async (author: string): Promise<Array<Post>> => this.postStorage.find({author}, {_id: 0}).lean().exec()
 
-    findRoleById = async (_id: string): Promise<Role> => {
-        return this.roleStorage.findOne({_id}, {_id: 0}).exec()
-    }
+    findPostsByCategories = async (category: string): Promise<Array<Post>> => this.postStorage.find({category}, {_id: 0}).lean().exec()
 
-    getAllUsers = async (): Promise<ParsedUsers> => {
-        return this.userStorage.find({}, {_id: 0, password: 0}).populate({path: "role", select: "value -_id"}).lean()
-    }
+    getAllPosts = async (): Promise<Array<Post>> => this.postStorage.find({}, {_id: 0}).lean().exec()
 
     addUser = async (userFields: CreateUserDto): Promise<User> => {
         const instance = new this.userStorage({
