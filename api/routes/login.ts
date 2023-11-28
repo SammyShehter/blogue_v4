@@ -1,15 +1,9 @@
-import type {NextApiRequest, NextApiResponse} from "next"
+import express, {Request, Response} from "express"
 import loginMiddleware from "../middleware/login"
 
-type ResponseData = {
-    status: string
-    data: any
-}
+const router = express.Router()
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<ResponseData>
-) {
+const loginController = async (req: Request, res: Response) => {
     try {
         const {username, password} = req.body
         const response = await fetch("http://localhost:9000/login", {
@@ -23,3 +17,7 @@ export default async function handler(
         return res.status(200).json({status: "FAILURE", data: {}})
     }
 }
+
+router.post("/login", loginMiddleware, loginController)
+
+export default router

@@ -12,7 +12,7 @@ class MongooseService {
             content: {type: String, required: true, unique: true},
             author: {type: String, required: true},
             category: {type: String, required: true},
-            slug: {type: String, }
+            slug: {type: String, required: true}
         },
         {timestamps: true, versionKey: false}
     )
@@ -31,8 +31,8 @@ class MongooseService {
         }
         console.log("Attemptin to connect to Mongo DB")
         mongoose
-            .connect(process.env.MONGO_CONNECTION_STRING, {
-                dbName: "auth",
+            .connect(process.env.MONGO_CONNECTION_STRING as string, {
+                dbName: "blogue",
             })
             .then(() => {
                 console.log("MongoDB is connected")
