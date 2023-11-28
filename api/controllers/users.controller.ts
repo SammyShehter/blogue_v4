@@ -1,9 +1,6 @@
-import express, {Request, Response} from "express"
-import loginMiddleware from "../middleware/login"
+import { Request, Response } from "express"
 
-const router = express.Router()
-
-const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request, res: Response) => {
     try {
         const {username, password} = req.body
         const response = await fetch("http://localhost:9000/login", {
@@ -17,7 +14,3 @@ const loginController = async (req: Request, res: Response) => {
         return res.status(200).json({status: "FAILURE", data: {}})
     }
 }
-
-router.post("/login", loginMiddleware, loginController)
-
-export default router

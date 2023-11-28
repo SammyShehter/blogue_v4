@@ -1,20 +1,24 @@
-import next from 'next';
-import createServer from './api';
+import next from "next"
+import createServer from "./api"
+import {init, initEvents} from "./src/utils/common"
 
-const port = process.env.PORT;
-const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({ dev });
-const handle = nextApp.getRequestHandler();
+const port = process.env.PORT
+const dev = process.env.NODE_ENV !== "production"
+const nextApp = next({dev})
+const handle = nextApp.getRequestHandler()
 
-nextApp.prepare().then(() => {
+init()
 
-  const server = createServer();
+initEvents.once("go", () => {
+    nextApp.prepare().then(() => {
+        const server = createServer()
 
-  server.all('*', (req, res) => {
-    return handle(req, res);
-  });
+        server.all("*", (req, res) => {
+            return handle(req, res)
+        })
 
-  server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
-  });
-});
+        server.listen(port, () => {
+            console.log(`> Ready on port ${port}`)
+        })
+    })
+})
