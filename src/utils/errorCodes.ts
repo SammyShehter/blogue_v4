@@ -1,4 +1,5 @@
-import { ErrorCode } from "@/types/utils/errorCodes.types"
+import { ErrorCode } from "../types/utils/errorCodes.types"
+
 
 export class ErrorCodes {
     static get GENERAL_ERROR(): ErrorCode {
@@ -82,7 +83,7 @@ export class ErrorCodes {
             alert: 1,
         }
     }
-    
+
     static ACCESS_DENIED(path: string, here: string): ErrorCode {
         return {
             message: "ACCESS DENIED",

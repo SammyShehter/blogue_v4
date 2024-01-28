@@ -1,5 +1,5 @@
-import mongoose, {Schema} from "mongoose"
-import {Post} from "../types/services/mongo.types"
+import mongoose, { Schema } from "mongoose"
+import { Post } from "../types/services/mongo.types"
 
 class MongooseService {
     constructor() {
@@ -8,12 +8,14 @@ class MongooseService {
 
     private postSchema = new Schema<Post>(
         {
-            content: {type: String, required: true, unique: true},
-            author: {type: String, required: true},
-            category: {type: String, required: true},
-            slug: {type: String, required: true},
+            title: { type: String, required: true, unique: true },
+            description: { type: String, required: true, unique: true },
+            content: { type: String, required: true, unique: true },
+            author: { type: String, required: true },
+            category: { type: String, required: true },
+            slug: { type: String, required: true, unique: true },
         },
-        {timestamps: true, versionKey: false}
+        { timestamps: true, versionKey: false }
     )
 
     private postStorage = mongoose.model<Post>("posts", this.postSchema)
@@ -47,30 +49,29 @@ class MongooseService {
         }
     }
 
-    // findPostsByAuthor = async (author: string): Promise<Array<Post>> =>
-    //     this.postStorage.find({author}, {_id: 0}).lean().exec()
+    findPostsByAuthor = async (author: string): Promise<Array<Post>> =>
+        this.postStorage.find({ author }, { _id: 0 }).lean().exec()
 
-    // findPostsByCategories = async (category: string): Promise<Array<Post>> =>
-    //     this.postStorage.find({category}, {_id: 0}).lean().exec()
+    findPostsByCategories = async (category: string): Promise<Array<Post>> =>
+        this.postStorage.find({ category }, { _id: 0 }).lean().exec()
 
     fetchAllPosts = async (): Promise<Array<Post>> =>
-        this.postStorage.find({}, {_id: 0}).lean().exec()
+        this.postStorage.find({}, { _id: 0 }).lean().exec()
 
-    // addUser = async (userFields: CreateUserDto): Promise<User> => {
-    //     const instance = new this.userStorage({
-    //         ...userFields,
-    //     })
-    //     await instance.save()
-    //     return instance
-    // }
+    fetchPost = async (slug: string): Promise<Post> =>
+        this.postStorage.findOne({ slug }, { _id: 0 }).lean().exec()
 
-    // findUserByEmail = async (email: string): Promise<User> => {
-    //     return this.userStorage.findOne({email}).exec()
-    // }
+    deletePost = async (slug: string): Promise<mongoose.mongo.DeleteResult> => 
+        this.postStorage.deleteOne({ slug }).lean().exec()
+        
 
-    // findUserByUsername = async (username: string): Promise<User> => {
-    //     return this.userStorage.findOne({username}).exec()
-    // }
+    addPost = async ({ author, category, content, description, slug, title }: Post): Promise<Post> => {
+        const post = new this.postStorage({
+            author, category, content, description, slug, title
+        })
+        await post.save()
+        return post
+    }
 }
 
 export default new MongooseService()

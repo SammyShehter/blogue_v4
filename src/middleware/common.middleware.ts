@@ -1,6 +1,6 @@
-import { handleError } from "../../src/utils/common";
-import { ErrorCodes } from "../../src/utils/errorCodes";
 import { NextFunction, Request, Response } from "express";
+import { handleError } from "../utils/common";
+import { ErrorCodes } from "../utils/errorCodes";
 
 export const senderCheck = (req: Request, res: Response, next: NextFunction) => {
     try {

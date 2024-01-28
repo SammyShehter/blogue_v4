@@ -3,11 +3,13 @@ import MongoService from "../services/mongo.service"
 import {createHash} from "crypto"
 import {EventEmitter} from "stream"
 import fs from 'fs'
-import { ErrorCode } from "@/types/utils/errorCodes.types"
+import { ErrorCode } from "../types/utils/errorCodes.types"
 import { ErrorCodes } from "./errorCodes"
 import { Response } from "express"
 
 export const initEvents = new EventEmitter()
+
+export const dev = process.env.NODE_ENV !== "production"
 
 export async function init() {
     if (process.env.INIT !== "fine") {
