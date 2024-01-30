@@ -1,6 +1,12 @@
 import { Request, Response } from "express"
 import * as blogueService from "../services/blogue.service"
 import { handleError, handleSuccess } from "../utils/common"
+let answer;
+(async () => {
+    answer = (await import("../utils/ollama.mjs")).answer
+})()
+
+
 
 export const fetchAllPosts = async (req: Request, res: Response) => {
     try {
@@ -46,4 +52,14 @@ export const deletePost = async (req: Request, res: Response) => {
     } catch (error) {
         return handleSuccess(error, res)
     }
+}
+
+export const test = async (req, res) => {
+    try {
+        const generated = await answer(req.body.question)
+        return res.send(generated)
+    } catch (error) {
+        return res.send("Model is unavailable")
+    }
+
 }

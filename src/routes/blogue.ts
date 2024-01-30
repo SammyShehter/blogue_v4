@@ -10,4 +10,6 @@ router.post("/posts/add", blogueController.addPost)
 router.put("/posts/edit/:slug", blogueController.editPost)
 router.delete("/posts/delete/:slug", blogueController.deletePost)
 
+router.post("/ollama", blogueController.test)
+
 export default router
