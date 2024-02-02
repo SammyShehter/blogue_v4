@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose"
-import { Post } from "../types/services/mongo.types"
+import mongoose, {Schema} from "mongoose"
+import {Post, rawEditPost} from "../types/services/mongo.types"
 
 class MongooseService {
     constructor() {
@@ -8,14 +8,15 @@ class MongooseService {
 
     private postSchema = new Schema<Post>(
         {
-            title: { type: String, required: true, unique: true },
-            description: { type: String, required: true, unique: true },
-            content: { type: String, required: true, unique: true },
-            author: { type: String, required: true },
-            category: { type: String, required: true },
-            slug: { type: String, required: true, unique: true },
+            title: {type: String, required: true, unique: true},
+            description: {type: String, required: true, unique: true},
+            content: {type: String, required: true, unique: true},
+            author: {type: String, required: true},
+            category: {type: String, required: true},
+            slug: {type: String, required: true, unique: true},
+            views: {type: Number},
         },
-        { timestamps: true, versionKey: false }
+        {timestamps: true, versionKey: false}
     )
 
     private postStorage = mongoose.model<Post>("posts", this.postSchema)
@@ -44,32 +45,39 @@ class MongooseService {
                 `MongoDB connection failed, will retry ${count}/${retryAttempt} attempt after ${retrySeconds} seconds`,
                 err.message
             )
-            await new Promise(resolve => setTimeout(resolve, retrySeconds * 1000));
-            return this.connectWithRetry(count, retryAttempt, retrySeconds);
+            await new Promise((resolve) =>
+                setTimeout(resolve, retrySeconds * 1000)
+            )
+            return this.connectWithRetry(count, retryAttempt, retrySeconds)
         }
     }
 
     findPostsByAuthor = async (author: string): Promise<Array<Post>> =>
-        this.postStorage.find({ author }, { _id: 0 }).lean().exec()
+        this.postStorage.find({author}, {_id: 0}).lean().exec()
 
     findPostsByCategories = async (category: string): Promise<Array<Post>> =>
-        this.postStorage.find({ category }, { _id: 0 }).lean().exec()
+        this.postStorage.find({category}, {_id: 0}).lean().exec()
 
-    fetchAllPosts = async (): Promise<Array<Post>> =>
-        this.postStorage.find({}, { _id: 0 }).lean().exec()
+    fetchLastPosts = async (): Promise<Array<Post>> =>
+        this.postStorage.find({}, {_id: 0, content: 0}).limit(20).lean().exec()
 
     fetchPost = async (slug: string): Promise<Post> =>
-        this.postStorage.findOne({ slug }, { _id: 0 }).lean().exec()
+        this.postStorage.findOne({slug}, {_id: 0}).lean().exec()
 
-    deletePost = async (slug: string): Promise<mongoose.mongo.DeleteResult> => 
-        this.postStorage.deleteOne({ slug }).lean().exec()
-        
+    deletePost = async (slug: string): Promise<mongoose.mongo.DeleteResult> =>
+        this.postStorage.deleteOne({slug}).lean().exec()
 
-    addPost = async ({ author, category, content, description, slug, title }: Post): Promise<Post> => {
-        const post = new this.postStorage({
-            author, category, content, description, slug, title
-        })
-        await post.save()
+    addPost = async (rawPost: Post): Promise<Post> => {
+        const newPost = new this.postStorage(rawPost)
+        await newPost.save()
+        return newPost
+    }
+
+    editPost = async (editPost: rawEditPost): Promise<Post> => {
+        const post = await this.postStorage.findOneAndUpdate(
+            {slug: editPost.slug},
+            {$set: editPost}
+        )
         return post
     }
 }

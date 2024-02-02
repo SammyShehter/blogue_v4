@@ -1,16 +1,14 @@
 import { Request, Response } from "express"
 import * as blogueService from "../services/blogue.service"
 import { handleError, handleSuccess } from "../utils/common"
-let answer;
-(async () => {
-    answer = (await import("../utils/ollama.mjs")).answer
-})()
+import {
+    newPost,
+    rawEditPost
+} from "../types/services/mongo.types"
 
-
-
-export const fetchAllPosts = async (req: Request, res: Response) => {
+export const fetchLastPosts = async (req: Request, res: Response) => {
     try {
-        const posts = await blogueService.allPosts()
+        const posts = await blogueService.lastPosts()
         return handleSuccess(posts, res)
     } catch (error: any) {
         return handleError(error, res)
@@ -19,47 +17,77 @@ export const fetchAllPosts = async (req: Request, res: Response) => {
 
 export const fetchPost = async (req: Request, res: Response) => {
     try {
-        const slug = req.data.slug
+        const slug = req.params.slug
         const post = await blogueService.fetchPost(slug)
         return handleSuccess(post, res)
     } catch (error) {
-        return handleSuccess(error, res)
+        return handleError(error, res)
     }
 }
 
 export const addPost = async (req: Request, res: Response) => {
     try {
-        const { content, title, category } = req.data
-        const addedPost = await blogueService.addPost({ content, title, category })
-        return handleSuccess({ message: "Post added succesfully!", slug: addedPost.slug }, res)
+        const {content, title, category}: newPost = req.body
+        const addedPost = await blogueService.addPost({
+            content,
+            title,
+            category,
+        })
+        return handleSuccess(
+            {message: "Post added succesfully!", slug: addedPost.slug},
+            res
+        )
     } catch (error) {
-        return handleSuccess(error, res)
+        return handleError(error, res)
     }
 }
 
 export const editPost = async (req: Request, res: Response) => {
     try {
-        return handleSuccess("Post edited succesfully!", res)
+        const slug = req.params.slug
+        const {content, title, category, description}: rawEditPost = req.body
+        const editedPost = await blogueService.editPost({
+            content,
+            title,
+            category,
+            slug,
+            description,
+        })
+        return handleSuccess(
+            {message: "Post edited succesfully!", slug: editedPost.slug},
+            res
+        )
     } catch (error) {
-        return handleSuccess(error, res)
+        return handleError(error, res)
     }
 }
 
 export const deletePost = async (req: Request, res: Response) => {
     try {
-        await blogueService.deletePost(req.data.slug)
-        return handleSuccess("Post deleted succesfully!", res)
+        req.params.slug && blogueService.deletePost(req.params.slug)
+        return handleSuccess({message: "Post deleted succesfully!"}, res)
     } catch (error) {
-        return handleSuccess(error, res)
+        return handleError(error, res)
     }
 }
 
-export const test = async (req, res) => {
+export const generatePost = async (req: Request, res: Response) => {
     try {
-        const generated = await answer(req.body.question)
-        return res.send(generated)
+        const theme = req.body.theme
+        const {description, content, title} = await blogueService.askAItoGenerate(theme)
+        const addedPost = await blogueService.addPost(
+            {
+                content,
+                title,
+                category: "new",
+            },
+            description
+        )
+        return handleSuccess(
+            {message: "Post generated succesfully!", slug: addedPost.slug},
+            res
+        )
     } catch (error) {
-        return res.send("Model is unavailable")
+        return handleError(error, res)
     }
-
 }

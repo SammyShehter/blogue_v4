@@ -11,30 +11,14 @@ export class ErrorCodes {
         }
     }
 
-    static get TOKEN_ABSENT(): ErrorCode {
+    static JSON_VALIDATION_FAILED({
+        action,
+        param,
+    }: {action: string, param: string}): ErrorCode {
         return {
-            message: "TOKEN ABSENT",
-            action: "Please provide a valid user token",
-            innerMessage: "no token provided",
-            alert: 1,
-        }
-    }
-
-    static get INVALID_CREDENTIALS(): ErrorCode {
-        return {
-            message: "INVALID CREDENTIALS",
-            action: "Please use a valid username and password",
-            innerMessage: "credentials are incorrect",
-            alert: 1,
-            status: 401
-        }
-    }
-
-    static get INVALID_TOKEN(): ErrorCode {
-        return {
-            message: "INVALID TOKEN",
-            action: "Please use a valid user token",
-            innerMessage: "token is incorrect",
+            message: "JSON VALIDATION FAILED",
+            action,
+            innerMessage: `User sent wrong ${param}`,
             alert: 1,
         }
     }
@@ -48,15 +32,6 @@ export class ErrorCodes {
         }
     }
 
-    static ALREADY_EXISTING_USER(identificator: string): ErrorCode {
-        return {
-            message: "ALREADY EXISTING USER",
-            action: "User already exists, please use unique credentials",
-            innerMessage: `New candidate used ${identificator} which already exists`,
-            alert: 5,
-        }
-    }
-
     static INVALID_JSON_BODY(error: any): ErrorCode {
         return {
             message: "INVALID JSON BODY",
@@ -66,29 +41,29 @@ export class ErrorCodes {
         }
     }
 
-    static get USER_NOT_FOUND(): ErrorCode {
-        return {
-            message: "USER NOT FOUND",
-            action: "Please use a valid account",
-            innerMessage: "Login attempt with wrong creds",
-            alert: 3,
-        }
-    }
-
-    static get PASSWORD_CONFIRMATION_ERROR(): ErrorCode {
-        return {
-            message: "PASSWORD CONFIRMATION ERROR",
-            action: "Password confirmation wont match to the password you've sent, please try again",
-            innerMessage: "Password confirmation error",
-            alert: 1,
-        }
-    }
-
     static ACCESS_DENIED(path: string, here: string): ErrorCode {
         return {
             message: "ACCESS DENIED",
             action: "You're not allowed to see the data",
             innerMessage: `User requested ${path} and failed in ${here}`,
+            alert: 5,
+        }
+    }
+
+    static get POST_UNAVAILABLE (): ErrorCode {
+        return {
+            message: "POST UNAVAILABLE",
+            action: "Requested post is not available, please choose another",
+            innerMessage: `User sent an invalid slug or post was deleted`,
+            alert: 1,
+        }
+    }
+
+    static get POST_CANT_BE_UPDATED (): ErrorCode {
+        return {
+            message: "POST CANT BE UPDATED",
+            action: "Please add at least one update to the post",
+            innerMessage: `User sent an empty update request`,
             alert: 5,
         }
     }

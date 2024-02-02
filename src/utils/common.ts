@@ -6,6 +6,7 @@ import fs from 'fs'
 import { ErrorCode } from "../types/utils/errorCodes.types"
 import { ErrorCodes } from "./errorCodes"
 import { Response } from "express"
+import { MongooseError } from "mongoose"
 
 export const initEvents = new EventEmitter()
 
@@ -56,7 +57,6 @@ export const handleError = (
     status: number = error?.status || 400
     ): Response => {
     if (error instanceof Error) {
-        //@ts-ignore
         const stack = error.stack.split("\n")
         const callerName = stack[1].trim().split(" ")[1]
         const genericMessage = error.message

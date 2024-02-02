@@ -8,21 +8,25 @@ declare global {
             operationID: string
             data: {
                 /**
-                 * used in addPost
+                 * used in addPost,
+                 * editPost
                  */
                 category
                 /**
-                 * used in addPost
+                 * used in addPost,
+                 * editPost
                  */
                 title
                 /**
-                 * used in addPost
+                 * used in addPost,
+                 * editPost
                  */
                 content: string
                 /**
                  * Used in:
                  * fetchPost,
-                 * deletePost
+                 * deletePost,
+                 * editPost
                  */
                 slug: string
             }
