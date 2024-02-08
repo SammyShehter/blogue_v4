@@ -22,3 +22,7 @@
     text-wrap: balance;
   }
 }
+
+.markdown-content img {
+  margin: 2vh auto 0 auto;
+}

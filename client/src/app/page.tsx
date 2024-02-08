@@ -1,7 +1,6 @@
-import PreviewPost from "./components/featuredArticle"
+import PreviewPost from "./components/previewPost"
 import NavBar from "./components/navbar"
-import type { Repo } from "./types/type"
-
+import type {Repo} from "./types/type"
 
 let repo: Repo = {
     data: [],
@@ -16,14 +15,14 @@ export const getData = async () => {
         method: "GET",
         headers: myHeaders,
     })
-    repo = await res.json()
+    const parsedData = await res.json()
+    repo = parsedData
     repo.date = new Date()
     return repo
 }
 
 export default async function Home() {
     await getData()
-
     return (
         <>
             <NavBar />
@@ -44,17 +43,16 @@ export default async function Home() {
                         href="/posts"
                         className="text-blue-600 hover:text-blue-800"
                     >
-                        {" "}
-                        the posts page{" "}
+                        the posts page
                     </a>
                     to read them all.
                 </p>
                 <div className="mb-8">
                     <h2 className="text-3xl font-bold mb-4">Featured</h2>
                     <div className="space-y-4">
-                      {repo.data.map(data => {
-                        return <PreviewPost {...data}/>
-                      })}
+                        {repo.data.map((data) => {
+                            return <PreviewPost {...data} key={data.slug}/>
+                        })}
                     </div>
                 </div>
             </div>
