@@ -1,21 +1,8 @@
 import MarkdownRender from "@/app/components/markdown"
+import NavBar from "@/app/components/navbar"
+import type { Post } from "@/app/types/type"
 
-let repo: {
-    status: string
-    data: {
-        title: string
-        description: string
-        content: string
-        author: string
-        category: string
-        slug: string
-        views: number
-        createdAt: string
-        updatedAt: string
-    }
-    date: Date
-    html: string
-}
+let repo: Post
 export const getData = async (slug: string) => {
     if (repo?.status) return repo
     const myHeaders = new Headers()

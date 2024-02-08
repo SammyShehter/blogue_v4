@@ -1,4 +1,4 @@
-import { getSessionData } from "../server/actions"
+import { getSessionData } from "@/app/server/actions"
 
 export default async function Dashboard() {
     const session = await getSessionData()

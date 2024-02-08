@@ -1,7 +1,7 @@
 export default function NavBar () {
   return (
-    <nav className="container mx-auto px-4 py-3 border-b">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="mx-auto mb-5 py-3 border-b">
+      <div className="mx-auto flex justify-between items-center">
         <a href="/" className="text-xl font-bold">Sammy Shehter Blogue</a>
         <div className="flex space-x-4 items-center">
           <a href="/posts" className="hover:text-gray-700">Posts</a>
