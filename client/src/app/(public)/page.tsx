@@ -1,3 +1,4 @@
+import Footer from "../components/footer"
 import PreviewSection from "../components/previewSection"
 import type { Repo } from "../types/type"
 
@@ -42,6 +43,7 @@ export default async function Home() {
             </p>
             <PreviewSection previewPosts={repo.data} sectionName="Featured"/>
             <PreviewSection previewPosts={repo.data} sectionName="Recent Posts"/>
+            <Footer />
         </>
     )
 }

@@ -1,5 +1,4 @@
 import MarkdownRender from "@/app/components/markdown"
-import NavBar from "@/app/components/navbar"
 import type { Post } from "@/app/types/type"
 
 let repo: Post
