@@ -1,7 +1,6 @@
 export type Repo = {
     status: string
     data: Array<previewPost>
-    date: Date
 }
 export type previewPost = {
     title: string
@@ -12,6 +11,8 @@ export type previewPost = {
     views: number
     createdAt: string
     updatedAt: string
+    batch: number
+    date: string
 }
 
 export type Post = {

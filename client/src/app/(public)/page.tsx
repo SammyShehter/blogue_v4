@@ -22,9 +22,9 @@ export default async function Home() {
                 </a>
                 to read them all.
             </p>
-            <PreviewSection previewPosts={PostsRepo.featuredPosts.data} sectionName="Featured"/>
+            <PreviewSection previewPosts={Array.from(PostsRepo.featuredPosts.values()).slice(0, 3)} sectionName="Featured"/>
             <div className="border-b my-10"></div>
-            <PreviewSection previewPosts={PostsRepo.featuredPosts.data} sectionName="Recent Posts"/>
+            <PreviewSection previewPosts={PostsRepo.paginatedPosts[0]?.slice(0, 3)} sectionName="Recent Posts"/>
             <div className="flex space-x-2 items-center justify-center">
                 <Link href="/posts"><p>All Posts</p></Link>
             <ArrowRight className="" />

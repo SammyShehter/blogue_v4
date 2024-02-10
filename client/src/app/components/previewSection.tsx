@@ -12,7 +12,7 @@ export default function PreviewSection({
         <div className="mb-8">
             <h2 className="text-3xl font-bold mb-4">{sectionName}</h2>
             <div className="space-y-4">
-                {previewPosts.map((data) => {
+                {previewPosts && previewPosts.map((data) => {
                     return <PreviewPost {...data} key={data.slug} />
                 })}
             </div>

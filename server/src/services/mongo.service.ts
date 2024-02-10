@@ -59,7 +59,7 @@ class MongooseService {
         this.postStorage.find({category}, {_id: 0}).lean().exec()
 
     fetchLastPosts = async (): Promise<Array<Post>> =>
-        this.postStorage.find({}, {_id: 0, content: 0}).limit(20).lean().exec()
+        this.postStorage.find({}, {_id: 0, content: 0}).limit(20).sort({createdAt: -1}).lean().exec()
 
     fetchPost = async (slug: string): Promise<Post> =>
         this.postStorage.findOne({slug}, {_id: 0}).lean().exec()
