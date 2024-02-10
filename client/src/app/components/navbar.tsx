@@ -1,11 +1,15 @@
+import Link from "next/link";
+import { SiteLogo } from "./logo";
+
 export default function NavBar () {
   return (
-    <nav className="mx-auto mb-5 py-3 border-b">
+    <nav className="mx-auto mb-8 pt-6 pb-8 border-b">
       <div className="mx-auto flex justify-between items-center">
-        <a href="/" className="text-xl font-bold">Sammy Shehter Blogue</a>
+        <Link href="/" className="text-xl font-bold">Sammy Shehter Blogue</Link>
+        <SiteLogo className=""/>
         <div className="flex space-x-4 items-center">
-          <a href="/posts" className="hover:text-gray-700">Posts</a>
-          <a href="/tags" className="hover:text-gray-700">Tags</a>
+          <Link href="/posts" className="hover:text-gray-700">Posts</Link>
+          <Link href="/tags" className="hover:text-gray-700">Tags</Link>
           <form>
             <input type="search" placeholder="Search" className="px-2 py-1 border rounded"/>
           </form>

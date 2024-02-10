@@ -27,11 +27,11 @@ const MarkdownRenderer = ({markdownText}: {markdownText: string}) => {
                 dangerouslySetInnerHTML={{
                     __html: xss(marked.parse(markdownText) as string, {
                       whiteList: {
-                        ...getDefaultWhiteList(), // Copy default whitelist
-                        span: ['class'], // Add 'class' to the whitelist for span tags
+                        ...getDefaultWhiteList(),
+                        span: ['class'],
                       },
-                      stripIgnoreTag: true, // Strip all tags not in the whitelist
-                      stripIgnoreTagBody: ['script'], // Strip script tags and their content
+                      stripIgnoreTag: true,
+                      stripIgnoreTagBody: ['script'],
                     }),
                 }}
             />

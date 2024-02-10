@@ -27,6 +27,6 @@ export type Post = {
         createdAt: string
         updatedAt: string
     }
-    date: Date
+    date: string
     html: string
 }

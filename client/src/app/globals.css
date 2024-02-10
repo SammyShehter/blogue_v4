@@ -3,26 +3,39 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
 .markdown-content img {
-  margin: 2vh auto 0 auto;
+    margin: 2vh auto 0 auto;
+}
+
+.icon-lines {
+    fill: #FFF;
+    stroke: currentColor;
+    stroke-width: 2px;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+}
+
+:hover.share-icon-anim {
+    rotate: 6deg;
+    color: lightskyblue;
 }

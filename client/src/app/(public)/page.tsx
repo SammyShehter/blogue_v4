@@ -1,28 +1,9 @@
-import Footer from "../components/footer"
+import Link from "next/link"
 import PreviewSection from "../components/previewSection"
-import type { Repo } from "../types/type"
-
-let repo: Repo = {
-    data: [],
-    date: new Date(),
-    status: "",
-}
-export const getData = async () => {
-    if (repo.status) return repo
-    const myHeaders = new Headers()
-    myHeaders.append("inner_request", "1")
-    const res = await fetch("http://localhost:4747/api/posts", {
-        method: "GET",
-        headers: myHeaders,
-    })
-    const parsedData = await res.json()
-    repo = parsedData
-    repo.date = new Date()
-    return repo
-}
+import { ArrowRight } from "../components/logo"
+import PostsRepo from "../server/postRepo"
 
 export default async function Home() {
-    await getData()
     return (
         <>
             <header className="text-6xl font-bold text-center my-12">
@@ -41,9 +22,13 @@ export default async function Home() {
                 </a>
                 to read them all.
             </p>
-            <PreviewSection previewPosts={repo.data} sectionName="Featured"/>
-            <PreviewSection previewPosts={repo.data} sectionName="Recent Posts"/>
-            <Footer />
+            <PreviewSection previewPosts={PostsRepo.featuredPosts.data} sectionName="Featured"/>
+            <div className="border-b my-10"></div>
+            <PreviewSection previewPosts={PostsRepo.featuredPosts.data} sectionName="Recent Posts"/>
+            <div className="flex space-x-2 items-center justify-center">
+                <Link href="/posts"><p>All Posts</p></Link>
+            <ArrowRight className="" />
+            </div>
         </>
     )
 }

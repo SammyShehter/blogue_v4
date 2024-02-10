@@ -1,17 +1,21 @@
-export default function Footer () {
+import Link from "next/link"
+import {SiteLogo} from "./logo"
+
+export default function Footer() {
     return (
-      <nav className="mx-auto mb-5 py-3 border-t">
-        <div className="mx-auto flex justify-between items-center">
-          <a href="/" className="text-xl font-bold">Sammy Shehter Blogue</a>
-          <div className="flex space-x-4 items-center">
-            <a href="/posts" className="hover:text-gray-700">Posts</a>
-            <a href="/tags" className="hover:text-gray-700">Tags</a>
-            <form>
-              <input type="search" placeholder="Search" className="px-2 py-1 border rounded"/>
-            </form>
-          </div>
-        </div>
-      </nav>
+        <footer className="flex justify-between items-center mt-8 pt-8 pb-6 border-t">
+            <span>{new Date().getFullYear()} &copy; All Rights Reserved.</span>
+            <SiteLogo className="" />
+            <div className="flex items-center lg:py-2">
+                Build With
+                <span className="text-2xl px-1">
+                    &#9825;
+                </span>
+                by&nbsp;
+                <Link href="/" className="underline underline-offset-2">
+                    Sammy Shehter
+                </Link>
+            </div>
+        </footer>
     )
-  }
-  
+}
