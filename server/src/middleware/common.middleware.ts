@@ -1,16 +1,26 @@
-import { NextFunction, Request, Response } from "express";
+import {NextFunction, Request, Response} from "express"
 import {validationResult} from "express-validator"
-import { handleError } from "../utils/common";
-import { ErrorCodes } from "../utils/errorCodes";
+import {handleError} from "../utils/common"
+import {ErrorCodes} from "../utils/errorCodes"
 
-export const senderCheck = (req: Request, res: Response, next: NextFunction) => {
+export const senderCheck = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
-        if(!req.headers.inner_request || isNaN(+req.headers.inner_request)) {
-            return handleError(ErrorCodes.ACCESS_DENIED(req.url, senderCheck.name), res)    
+        if (!req.headers.inner_request || isNaN(+req.headers.inner_request)) {
+            return handleError(
+                ErrorCodes.ACCESS_DENIED(req.url, senderCheck.name),
+                res
+            )
         }
         next()
     } catch (error) {
-        return handleError(ErrorCodes.ACCESS_DENIED(req.url, senderCheck.name), res)
+        return handleError(
+            ErrorCodes.ACCESS_DENIED(req.url, senderCheck.name),
+            res
+        )
     }
 }
 
@@ -31,8 +41,6 @@ export const validate = (validations: any) => {
         }
 
         const errors = customValidationResult(req)
-        return errors.isEmpty()
-            ? next()
-            : handleError(errors.array()[0], res)
+        return errors.isEmpty() ? next() : handleError(errors.array()[0], res)
     }
 }

@@ -3,7 +3,7 @@ import {validate} from "./common.middleware"
 import {NextFunction, Request, Response} from "express"
 import {handleError} from "../utils/common"
 import * as blogueService from "../services/blogue.service"
-import { ErrorCodes } from "../utils/errorCodes"
+import {ErrorCodes} from "../utils/errorCodes"
 
 export const inputChecks = validate([
     body("title")
@@ -106,7 +106,7 @@ export const postExists = async (
     try {
         const postSlug = req.params.slug
         const exists = await blogueService.fetchPost(postSlug, false)
-        if(!exists?.slug) throw ErrorCodes.POST_UNAVAILABLE
+        if (!exists?.slug) throw ErrorCodes.POST_UNAVAILABLE
         next()
     } catch (error) {
         return handleError(error, res)
