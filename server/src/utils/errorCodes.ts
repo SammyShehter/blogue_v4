@@ -1,5 +1,4 @@
-import { ErrorCode } from "../types/utils/errorCodes.types"
-
+import {ErrorCode} from "../types/utils/errorCodes.types"
 
 export class ErrorCodes {
     static get GENERAL_ERROR(): ErrorCode {
@@ -14,7 +13,10 @@ export class ErrorCodes {
     static JSON_VALIDATION_FAILED({
         action,
         param,
-    }: {action: string, param: string}): ErrorCode {
+    }: {
+        action: string
+        param: string
+    }): ErrorCode {
         return {
             message: "JSON VALIDATION FAILED",
             action,
@@ -36,7 +38,9 @@ export class ErrorCodes {
         return {
             message: "INVALID JSON BODY",
             action: "JSON sent was not valid. Please review your request",
-            innerMessage: `Req.Body JSON was invalid. Sent ${JSON.stringify(error)}`,
+            innerMessage: `Req.Body JSON was invalid. Sent ${JSON.stringify(
+                error
+            )}`,
             alert: 5,
         }
     }
@@ -50,7 +54,7 @@ export class ErrorCodes {
         }
     }
 
-    static get POST_UNAVAILABLE (): ErrorCode {
+    static get POST_UNAVAILABLE(): ErrorCode {
         return {
             message: "POST UNAVAILABLE",
             action: "Requested post is not available, please choose another",
@@ -59,7 +63,7 @@ export class ErrorCodes {
         }
     }
 
-    static get POST_CANT_BE_UPDATED (): ErrorCode {
+    static get POST_CANT_BE_UPDATED(): ErrorCode {
         return {
             message: "POST CANT BE UPDATED",
             action: "Please add at least one update to the post",

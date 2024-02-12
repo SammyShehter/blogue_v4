@@ -1,12 +1,11 @@
 import RedisService from "../services/redis.service"
 import MongoService from "../services/mongo.service"
-import {createHash} from "crypto"
-import {EventEmitter} from "stream"
-import fs from 'fs'
+import { createHash } from "crypto"
+import { EventEmitter } from "stream"
+import fs from "fs"
 import { ErrorCode } from "../types/utils/errorCodes.types"
 import { ErrorCodes } from "./errorCodes"
 import { Response } from "express"
-import { MongooseError } from "mongoose"
 
 export const initEvents = new EventEmitter()
 
@@ -23,7 +22,7 @@ export async function init() {
         RedisService.connectWithRetry(),
     ])
 
-    if (checklist.every(pass => pass)) {
+    if (checklist.every((pass) => pass)) {
         console.log("> Everything is ok!")
         initEvents.emit("go")
     } else {
@@ -55,7 +54,7 @@ export const handleError = (
     error: ErrorCode = ErrorCodes.GENERAL_ERROR,
     res: Response,
     status: number = error?.status || 400
-    ): Response => {
+): Response => {
     if (error instanceof Error) {
         const stack = error.stack.split("\n")
         const callerName = stack[1].trim().split(" ")[1]
@@ -66,10 +65,10 @@ export const handleError = (
         error.alert = 5
     }
 
-    if(error.alert) {
+    if (error.alert) {
         // TelegramAPI.errorAlert(res.operationID, error)
     }
-    
+
     const message = `
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         REQUEST ${status === 400 ? "ERROR" : "WARNING"}!     
@@ -83,4 +82,3 @@ Error Message ${error.innerMessage}
         errors: {message: error.message, action: error.action},
     })
 }
-
