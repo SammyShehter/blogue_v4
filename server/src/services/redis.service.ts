@@ -1,7 +1,10 @@
 import {createClient} from "redis"
 
 class Redis {
-    private globalClient = createClient({url: process.env.REDIS_IP, password: process.env.REDIS_PASS})
+    private globalClient = createClient({
+        url: process.env.REDIS_IP,
+        password: process.env.REDIS_PASS,
+    })
 
     constructor() {
         console.log("> Redis initiated...")
