@@ -1,23 +1,32 @@
 import {NextResponse} from "next/server"
 import type {NextRequest} from "next/server"
+import { hashString } from "./server/utils"
+// import redis from "./server/redis"
 
 const protectedRoutes = [
     '/dashboard',
 ]
 
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
     const currentUser = request.cookies.get("token")?.value
+    if(!currentUser) {
+        if(protectedRoutes.includes(pathname)) {
+            return NextResponse.redirect(new URL("/login", request.url))
+        } else {
+            return NextResponse.next()
+        }
+    }
 
-    // TODO implement token check
+    const hash = await hashString(currentUser)
+
+    // const userData = await redis.get(`user:${hash}`)
+
+    console.log(hash.toString())
 
     if(currentUser && pathname === '/login') {
         return NextResponse.redirect(new URL("/dashboard", request.url))
-    }
-
-    if (!currentUser && protectedRoutes.includes(pathname)) {
-        return NextResponse.redirect(new URL("/login", request.url))
     }
     
     NextResponse.next()

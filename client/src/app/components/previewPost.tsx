@@ -1,4 +1,4 @@
-import { formattedTime } from "../server/utils"
+import { formattedTime } from "../../server/utils"
 import type {previewPost} from "../types/type"
 import { PostTime } from "./postTime"
 

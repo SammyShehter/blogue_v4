@@ -2,7 +2,7 @@ import MarkdownRender from "@/app/components/markdown"
 import type {Post} from "@/app/types/type"
 import ShareLinks from "@/app/components/shareLinks"
 import {PostTime} from "@/app/components/postTime"
-import PostsRepo from "../../../server/postRepo"
+import PostsRepo from "../../../../server/postRepo"
 import { redirect } from "next/dist/server/api-utils"
 import Posts from "../page"
 

@@ -1,3 +1,5 @@
+'use server'
+
 export function formattedTime(date: string) {
     const timeParts = new Intl.DateTimeFormat("en", {
         year: "numeric",
@@ -15,4 +17,8 @@ export function formattedTime(date: string) {
         }, Object.create(null))
 
     return `${timeParts.weekday} ${timeParts.dayPeriod}, ${timeParts.month} ${timeParts.year}`
+}
+
+export async function hashString(input: string) {
+    return crypto.subtle.digest("SHA-256", Buffer.from(input))
 }

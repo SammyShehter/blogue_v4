@@ -1,13 +1,11 @@
 import {createClient} from "redis"
 
 class Redis {
-    private globalClient = createClient({
-        url: process.env.REDIS_IP,
-        password: process.env.REDIS_PASSWORD,
-    })
+    private globalClient = createClient({url: process.env.REDIS_IP, password: process.env.REDIS_PASSWORD})
 
     constructor() {
         console.log("> Redis initiated...")
+        // this.connectWithRetry()
     }
 
     connectWithRetry = async (
@@ -48,13 +46,13 @@ class Redis {
         return this.globalClient.get(key)
     }
 
-    set = (key: string, value: any, ttl = 0) => {
-        return this.globalClient.set(
-            key,
-            JSON.stringify(value),
-            ttl > 0 ? {EX: ttl} : {}
-        )
-    }
+    // set = (key: string, value: any, ttl = 0) => {
+    //     return this.globalClient.set(
+    //         key,
+    //         JSON.stringify(value),
+    //         ttl > 0 ? {EX: ttl} : {}
+    //     )
+    // }
 }
-
-export default new Redis()
+const redis =  new Redis()
+export default redis
