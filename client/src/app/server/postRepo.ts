@@ -15,7 +15,6 @@ class PostsRepo {
         this.headers.append("inner_request", "1")
 
         this.getFeaturedPosts()
-        this.maxBatch = this.paginatedPosts.length
     }
 
     getFeaturedPosts = async () => {
@@ -27,13 +26,14 @@ class PostsRepo {
         })
         const parsedData: Repo = await res.json()
         parsedData.data.forEach((post, index) => {
-            if(!this.paginatedPosts[Math.round(index/2)]) {
-                this.paginatedPosts[Math.round(index/2)] = []
+            if(!this.paginatedPosts[Math.floor(index/2)]?.length) {
+                this.paginatedPosts[Math.floor(index/2)] = []
             }
-            this.paginatedPosts[Math.round(index/2)].push(post)
+            this.paginatedPosts[Math.floor(index/2)].push(post)
             post.date = formattedTime(post.createdAt)
             this.featuredPosts.set(post.slug, post)
         })
+        this.maxBatch = this.paginatedPosts.length
         return
     }
 

@@ -1,14 +1,28 @@
+import Link from "next/link"
 import PostsRepo from "../../server/postRepo"
 import PreviewSection from "@/app/components/previewSection"
+import {ArrowLeft, ArrowRight} from "@/app/components/logo"
 export default function Posts({page}: {page: number}) {
-    // if(!page || page > PostsRepo.maxBatch) page = 1
-    if(!page) page = 1
+    if (!page || page > PostsRepo.maxBatch) page = 1
     return (
         <>
             <div className="">
-                <h2 className="text-3xl font-bold">Posts</h2>
-                {page && <p>Current page is {page}</p>}
-                <PreviewSection previewPosts={PostsRepo.paginatedPosts[page-1]} sectionName="Recent Posts"/>
+                <PreviewSection
+                    previewPosts={PostsRepo.paginatedPosts[page - 1]}
+                    sectionName="Posts"
+                />
+
+                <div className="flex space-x-2 items-center justify-center">
+                    <ArrowLeft className="" />
+                    <Link href={`/posts/${page-1}`}>
+                        <p>Prev</p>
+                    </Link>
+                    <p>/</p>
+                    <Link href={`/posts/${page+1}`}>
+                        <p>Next</p>
+                    </Link>
+                    <ArrowRight className="" />
+                </div>
             </div>
         </>
     )
