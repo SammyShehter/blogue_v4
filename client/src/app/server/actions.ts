@@ -1,5 +1,7 @@
+'use server'
+import { cookies } from 'next/headers'
+
 import axios from "axios"
-import {cookies} from "next/headers"
 
 export async function getSessionData() {
     const encryptedSessionData = cookies().get("session")
@@ -11,7 +13,7 @@ export async function getSessionData() {
 
 export async function authenticate(credentials: {username: string, password: string}): Promise<{valid: boolean}> {
     try {
-        const response = await axios.post('http://localhost:10000/login', credentials, {})
+        const response = await axios.post('http://localhost:9000/login', credentials, {})
         if (!response.data) {
             return {valid: false}
         }
