@@ -1,5 +1,5 @@
 import Link from "next/link"
-import PostsRepo from "../../server/postRepo"
+import PostsRepo from "../../../utils/postRepo"
 import PreviewSection from "@/app/components/previewSection"
 import {ArrowLeft, ArrowRight} from "@/app/components/logo"
 export default function Posts({page}: {page: number}) {

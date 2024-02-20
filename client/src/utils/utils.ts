@@ -1,6 +1,4 @@
-'use server'
-
-export function formattedTime(date: string) {
+export async function formattedTime(date: string) {
     const timeParts = new Intl.DateTimeFormat("en", {
         year: "numeric",
         month: "long",

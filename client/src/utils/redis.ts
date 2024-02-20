@@ -5,4 +5,8 @@ const redisConfig = {
     password: process.env.REDIS_PASS,
 }
 const redis = new Redis(redisConfig)
+redis.on("error", (error: unknown) => {
+    console.warn("[Redis] Error connecting", error)
+})
+export const userData = async (hash: string) => await redis.get(`user:${hash}`)
 export default redis

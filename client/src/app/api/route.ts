@@ -1,4 +1,4 @@
-import { getSessionData } from "../server/actions"
+import { getSessionData } from "../../utils/actions"
 
 export async function GET() {
     // User authentication and role verification

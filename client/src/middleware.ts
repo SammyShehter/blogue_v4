@@ -1,8 +1,6 @@
-'use server'
 import {NextResponse} from "next/server"
 import type {NextRequest} from "next/server"
 import { hashString } from "./utils/utils"
-import redis from "./utils/redis"
 
 const protectedRoutes = [
     '/dashboard',
@@ -10,7 +8,7 @@ const protectedRoutes = [
 
 
 export async function middleware(request: NextRequest) {
-    const pathname = request.nextUrl.pathname
+    const { pathname } = request.nextUrl
     const currentUser = request.cookies.get("token")?.value
     if(!currentUser) {
         if(protectedRoutes.includes(pathname)) {
@@ -21,10 +19,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const hash = await hashString(currentUser)
-    // console.log(hash)
-    const userData = await redis.get(`user:${hash}`)
-
-    console.log(hash, userData)
+    console.log(hash)
 
     if(currentUser && pathname === '/login') {
         return NextResponse.redirect(new URL("/dashboard", request.url))

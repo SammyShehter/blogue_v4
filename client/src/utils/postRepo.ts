@@ -26,12 +26,12 @@ class PostsRepo {
             headers: this.headers,
         })
         const parsedData: Repo = await res.json()
-        parsedData.data.forEach((post, index) => {
+        parsedData.data.forEach( async (post, index) => {
             if (!this.paginatedPosts[Math.round(index / 2)]) {
                 this.paginatedPosts[Math.round(index / 2)] = []
             }
             this.paginatedPosts[Math.round(index / 2)].push(post)
-            post.date = formattedTime(post.createdAt)
+            post.date = await formattedTime(post.createdAt)
             this.featuredPosts.set(post.slug, post)
         })
         return
@@ -48,7 +48,7 @@ class PostsRepo {
         if (!post || post.status === "FAILURE") {
             return post
         }
-        post.date = formattedTime(post.data.createdAt)
+        post.date = await formattedTime(post.data.createdAt)
         this.cachedPosts.set(slug, post)
         return post
     }

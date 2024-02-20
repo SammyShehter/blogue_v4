@@ -1,4 +1,6 @@
-import { getSessionData } from "@/app/server/actions"
+"use server"
+import {getSessionData} from "@/utils/actions"
+import {userData} from "@/utils/redis"
 
 export default async function Dashboard() {
     const session = await getSessionData()
