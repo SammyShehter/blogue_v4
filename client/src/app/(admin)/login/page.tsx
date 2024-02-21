@@ -1,15 +1,19 @@
 "use client"
-import {useState, FormEvent} from "react"
+import {useState, FormEvent, useEffect} from "react"
 import {useRouter} from "next/navigation"
-import { authenticate } from "@/utils/actions"
+import {authenticate, deleteCookies} from "@/utils/actions"
 
-export default function Page() {
+export default function Login() {
     const router = useRouter()
     const [form, setForm] = useState({
         username: "",
         password: "",
     })
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        deleteCookies()
+    }, [])
 
     const dayNightBg = () => {
         const clock = new Date().getHours()

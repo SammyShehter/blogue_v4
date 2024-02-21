@@ -1,17 +1,27 @@
 "use server"
 import {getSessionData} from "@/utils/actions"
-import {userData} from "@/utils/redis"
+import Login from "../login/page"
+import Link from "next/link"
 
 export default async function Dashboard() {
     const session = await getSessionData()
-    const userRole = session?.role
-    const userName = session?.user
+    if (session.error) {
+        return <Login />
+    }
+
+    const userRole = "admin"
+    const userName = session?.data?.username || "test"
 
     if (userRole === "admin") {
-        return <h1>Hi {userName}! Welcome to Admin Dashboard</h1>
+        return (
+            <>
+                <h1>Hi {userName}! Welcome to Admin Dashboard</h1>
+                <Link href="/login">Logout</Link>
+            </>
+        )
     } else if (userRole === "user") {
         return <h1>Hi {userName}! Welcome to User Dashboard</h1>
     } else {
-        return <h1>AccessDenied</h1>
+        return <Login />
     }
 }
