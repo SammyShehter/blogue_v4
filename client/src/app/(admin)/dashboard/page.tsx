@@ -1,7 +1,7 @@
 "use server"
 import {getSessionData} from "@/utils/actions"
 import Login from "../login/page"
-import Link from "next/link"
+import Logout from "@/app/components/logout"
 
 export default async function Dashboard() {
     const session = await getSessionData()
@@ -16,7 +16,7 @@ export default async function Dashboard() {
         return (
             <>
                 <h1>Hi {userName}! Welcome to Admin Dashboard</h1>
-                <Link href="/login">Logout</Link>
+                <Logout />
             </>
         )
     } else if (userRole === "user") {

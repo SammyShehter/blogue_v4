@@ -45,10 +45,9 @@ export default function Login() {
             const response = await authenticate(form)
 
             if (response.valid) {
-                console.log("redirecting")
                 router.push("/dashboard")
             } else {
-                console.log("not redirecting")
+                // console.log("not redirecting")
             }
         } catch (error) {
             console.error(error)
