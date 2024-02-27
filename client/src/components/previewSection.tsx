@@ -1,4 +1,4 @@
-import PreviewPost from "@/app/components/previewPost"
+import PreviewPost from "@/components/previewPost"
 import type {previewPost} from "../types/type"
 
 export default function PreviewSection({

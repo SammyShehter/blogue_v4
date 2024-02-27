@@ -1,9 +1,8 @@
-import MarkdownRender from "@/app/components/markdown"
-import type {Post} from "@/app/types/type"
-import ShareLinks from "@/app/components/shareLinks"
-import {PostTime} from "@/app/components/postTime"
+import MarkdownRender from "@/components/markdown"
+import type {Post} from "@/types/type"
+import ShareLinks from "@/components/shareLinks"
+import {PostTime} from "@/components/postTime"
 import PostsRepo from "../../../../utils/postRepo"
-import { redirect } from "next/dist/server/api-utils"
 import Posts from "../page"
 
 export default async function Post({params}: {params: {slug: string}}) {

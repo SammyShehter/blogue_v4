@@ -2,9 +2,14 @@
 import { cookies } from "next/headers";
 import axios from "axios"
 import { hashString } from "./utils";
-import { userData } from "./redis";
+import { deleteSession, userData } from "./redis";
 
 export async function deleteCookies() {
+    const tokenData = cookies().get("token")
+    if(tokenData?.value) {
+        const hash = await hashString(tokenData.value)
+        await deleteSession(hash)
+    }
     cookies().delete("token")
 }
 

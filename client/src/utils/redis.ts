@@ -9,4 +9,5 @@ redis.on("error", (error: unknown) => {
     console.warn("[Redis] Error connecting", error)
 })
 export const userData = async (hash: string) => await redis.get(`user:${hash}`)
+export const deleteSession = async (hash: string) => await redis.del(`user:${hash}`)
 export default redis

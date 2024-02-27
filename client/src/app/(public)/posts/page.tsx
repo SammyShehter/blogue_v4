@@ -1,7 +1,7 @@
 import Link from "next/link"
 import PostsRepo from "../../../utils/postRepo"
-import PreviewSection from "@/app/components/previewSection"
-import {ArrowLeft, ArrowRight} from "@/app/components/logo"
+import PreviewSection from "@/components/previewSection"
+import {ArrowLeft, ArrowRight} from "@/components/logo"
 export default function Posts({page}: {page: number}) {
     if (!page || page > PostsRepo.maxBatch) page = 1
     return (

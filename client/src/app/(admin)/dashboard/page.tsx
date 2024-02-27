@@ -1,37 +1,49 @@
 "use server"
 import {getSessionData} from "@/utils/actions"
 import Login from "../login/page"
-import Logout from "@/app/components/logout"
-import AdminHeader from "@/app/components/adminHeader"
-import SideBar from "@/app/components/adminSideBar"
+import Sidebar from "@/components/admin/sideBar"
+import AdminHeader from "@/components/admin/header"
+import ContentLayout from "@/components/contentLayout"
+import PostsRepo from "@/utils/postRepo"
 
 export default async function Dashboard() {
     const session = await getSessionData()
     if (session.error) {
         return <Login />
     }
+    const userRole = session?.data?.role?.value
+    const userName = session?.data?.username
 
-    const userRole = "admin"
-    const userName = session?.data?.username || "test"
+    const latestPosts = Array.from(PostsRepo.featuredPosts.values())
 
-    if (userRole === "admin") {
-        return (
-            <>
-                <h1>Hi {userName}! Welcome to Admin Dashboard</h1>
-                <Logout />
-
-                <div className={`body ${open && "sidebar-is-expanded"}`}>
-                    <AdminHeader />
-                    <SideBar/>
-                    <div className="l-main">
-                        <p>Content Here</p>
+    switch (userRole) {
+        case "ADMIN":
+            return (
+                <div className="flex flex-col">
+                    <AdminHeader data={{userRole, userName}} />
+                    <div className="flex">
+                        <Sidebar />
+                        <ContentLayout>
+                            <h1 className="text-2xl font-bold">
+                                Welcometo Dashboard. Please check the recent
+                                posts
+                            </h1>
+                            <div className="flex flex-col">
+                                {
+                                    latestPosts.map(post => {
+                                        return <p key={post.slug}>{post.title}</p> 
+                                    })
+                                }
+                            </div>
+                        </ContentLayout>
                     </div>
                 </div>
-            </>
-        )
-    } else if (userRole === "user") {
-        return <h1>Hi {userName}! Welcome to User Dashboard</h1>
-    } else {
-        return <Login />
+            )
+
+        case "USER":
+            return <h1>Hi {userName}! Welcome to User Dashboard</h1>
+
+        default:
+            return <Login />
     }
 }

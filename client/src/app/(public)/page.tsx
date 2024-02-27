@@ -1,7 +1,7 @@
 import Link from "next/link"
-import PreviewSection from "../components/previewSection"
-import {ArrowRight} from "../components/logo"
 import PostsRepo from "../../utils/postRepo"
+import PreviewSection from "@/components/previewSection"
+import { ArrowRight } from "@/components/logo"
 
 export default async function Home() {
     return (

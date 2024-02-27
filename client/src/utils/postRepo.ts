@@ -1,4 +1,4 @@
-import type {Post, Repo, previewPost} from "../app/types/type"
+import type {Post, Repo, previewPost} from "../types/type"
 import {formattedTime} from "./utils"
 
 class PostsRepo {
