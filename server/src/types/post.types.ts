@@ -6,6 +6,9 @@ export type Post = {
     title: string
     description: string
     views: number
+
+    date?: string
+    createdAt?: string
 }
 
 export type newPost = {

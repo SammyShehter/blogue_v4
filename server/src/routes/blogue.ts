@@ -5,7 +5,8 @@ import * as blogueMiddleware from "../middleware/blogue.middleware"
 const router = express.Router()
 
 router.get("/posts", blogueController.fetchLastPosts)
-router.get("/posts/:slug", blogueController.fetchPost)
+router.get("/posts/post/:slug", blogueController.fetchPost)
+router.get("/posts/paginated/:page", blogueController.getPaginatedBatch)
 router.post(
     "/posts/add",
     blogueMiddleware.inputChecks,

@@ -1,57 +1,37 @@
-import type {Post, Repo, previewPost} from "../types/type"
-import {formattedTime} from "./utils"
+import type {Post, Repo} from "../types/type"
 
-class PostsRepo {
-    cachedPosts = new Map<string, Post>()
-    featuredPosts = new Map<string, previewPost>()
-    paginatedPosts: Array<Array<previewPost>> = []
-    maxBatch = 0
+const blogueUrl = "http://localhost:4747"
+const headers = new Headers()
+headers.append("inner_request", "1")
 
-    blogueUrl: string
-    headers = new Headers()
-
-    constructor() {
-        this.blogueUrl = "http://localhost:4747"
-        this.headers.append("inner_request", "1")
-
-        this.getFeaturedPosts()
-        this.maxBatch = this.paginatedPosts.length
-    }
-
-    getFeaturedPosts = async () => {
-        if (this.featuredPosts.size && this.paginatedPosts.length) return
-
-        const res = await fetch(`${this.blogueUrl}/api/posts`, {
-            method: "GET",
-            headers: this.headers,
-        })
-        const parsedData: Repo = await res.json()
-        parsedData.data.forEach( async (post, index) => {
-            if (!this.paginatedPosts[Math.round(index / 2)]) {
-                this.paginatedPosts[Math.round(index / 2)] = []
-            }
-            this.paginatedPosts[Math.round(index / 2)].push(post)
-            post.date = await formattedTime(post.createdAt)
-            this.featuredPosts.set(post.slug, post)
-        })
-        return
-    }
-
-    getPost = async (slug: string): Promise<Post> => {
-        let post: Post = this.cachedPosts.get(slug) as Post
-        if (post) return post
-        const res = await fetch(`${this.blogueUrl}/api/posts/${slug}`, {
-            method: "GET",
-            headers: this.headers,
-        })
-        post = await res.json()
-        if (!post || post.status === "FAILURE") {
-            return post
-        }
-        post.date = await formattedTime(post.data.createdAt)
-        this.cachedPosts.set(slug, post)
-        return post
-    }
+export async function fetchLatestPosts(): Promise<Repo> {
+    const res = await fetch(`${blogueUrl}/api/posts`, {
+        method: "GET",
+        headers,
+    })
+    const parsedData: Repo = await res.json()
+    return parsedData
 }
 
-export default new PostsRepo()
+export async function getPost(
+    slug: string
+): Promise<{status: string; data: Post}> {
+    const res = await fetch(`${blogueUrl}/api/posts/post/${slug}`, {
+        method: "GET",
+        headers,
+    })
+    const post = await res.json()
+    return post
+}
+
+export async function getPaginatedBatch(page: number): Promise<{
+    status: string
+    data: {maxBatch: number; paginatedBatch: Array<Post>}
+}> {
+    const res = await fetch(`${blogueUrl}/api/posts/paginated/${page}`, {
+        method: "GET",
+        headers,
+    })
+    const batch = await res.json()
+    return batch
+}

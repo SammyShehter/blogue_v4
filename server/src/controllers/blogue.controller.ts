@@ -4,7 +4,7 @@ import { handleError, handleSuccess } from "../utils/common"
 import {
     newPost,
     rawEditPost
-} from "../types/services/mongo.types"
+} from "../types/post.types"
 
 export const fetchLastPosts = async (req: Request, res: Response) => {
     try {
@@ -20,6 +20,16 @@ export const fetchPost = async (req: Request, res: Response) => {
         const slug = req.params.slug
         const post = await blogueService.fetchPost(slug)
         return handleSuccess(post, res)
+    } catch (error) {
+        return handleError(error, res)
+    }
+}
+
+export const getPaginatedBatch = async (req: Request, res: Response) => {
+    try {
+        const page = req.params.page
+        const batch = await blogueService.getPaginatedBatch(page)
+        return handleSuccess(batch, res)
     } catch (error) {
         return handleError(error, res)
     }

@@ -3,7 +3,7 @@ import MongoService from "../services/mongo.service"
 import { createHash } from "crypto"
 import { EventEmitter } from "stream"
 import fs from "fs"
-import { ErrorCode } from "../types/utils/errorCodes.types"
+import { ErrorCode } from "../types/errorCodes.types"
 import { ErrorCodes } from "./errorCodes"
 import { Response } from "express"
 
@@ -31,8 +31,24 @@ export async function init() {
     }
 }
 
-export const cx = (...classNames: Array<string>) =>
-    classNames.filter(Boolean).join(" ")
+export function formattedTime(date: number) {
+    const timeParts = new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        month: "long",
+        // day: "2-digit",
+        dayPeriod: "short",
+        timeZone: "Asia/Jerusalem",
+        // hourCycle: "h24",
+        weekday: "long",
+    })
+        .formatToParts(new Date(date))
+        .reduce((acc, curr) => {
+            acc[curr.type] = curr.value
+            return acc
+        }, Object.create(null))
+
+    return `${timeParts.weekday} ${timeParts.dayPeriod}, ${timeParts.month} ${timeParts.year}`
+}
 
 export function hashString(input: string) {
     return createHash("sha256").update(input).digest("hex")

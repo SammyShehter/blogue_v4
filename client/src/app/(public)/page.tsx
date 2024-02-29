@@ -1,7 +1,6 @@
 import Link from "next/link"
-import PostsRepo from "../../utils/postRepo"
-import PreviewSection from "@/components/previewSection"
 import { ArrowRight } from "@/components/logo"
+import PreviewSection from "@/components/previewSection"
 
 export default async function Home() {
     return (
@@ -23,18 +22,16 @@ export default async function Home() {
                 to read them all.
             </p>
             <PreviewSection
-                previewPosts={Array.from(
-                    PostsRepo.featuredPosts.values()
-                ).slice(0, 3)}
+                previewPosts={[]}
                 sectionName="Featured"
             />
             <div className="border-b my-10"></div>
             <PreviewSection
-                previewPosts={PostsRepo.paginatedPosts[0]?.slice(0, 3)}
+                previewPosts={[]}
                 sectionName="Recent Posts"
             />
             <div className="flex space-x-2 items-center justify-center">
-                <Link href="/posts">
+                <Link href="/posts/1">
                     <p>All Posts</p>
                 </Link>
                 <ArrowRight className="" />

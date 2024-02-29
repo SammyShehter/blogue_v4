@@ -4,7 +4,7 @@ import Login from "../login/page"
 import Sidebar from "@/components/admin/sideBar"
 import AdminHeader from "@/components/admin/header"
 import ContentLayout from "@/components/contentLayout"
-import PostsRepo from "@/utils/postRepo"
+import { fetchLatestPosts } from "@/utils/postRepo"
 
 export default async function Dashboard() {
     const session = await getSessionData()
@@ -14,7 +14,7 @@ export default async function Dashboard() {
     const userRole = session?.data?.role?.value
     const userName = session?.data?.username
 
-    const latestPosts = Array.from(PostsRepo.featuredPosts.values())
+    const latestPosts = await fetchLatestPosts()
 
     switch (userRole) {
         case "ADMIN":
@@ -30,7 +30,7 @@ export default async function Dashboard() {
                             </h1>
                             <div className="flex flex-col">
                                 {
-                                    latestPosts.map(post => {
+                                    latestPosts.data.map(post => {
                                         return <p key={post.slug}>{post.title}</p> 
                                     })
                                 }

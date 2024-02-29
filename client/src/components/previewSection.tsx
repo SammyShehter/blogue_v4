@@ -1,12 +1,12 @@
 import PreviewPost from "@/components/previewPost"
-import type {previewPost} from "../types/type"
+import type {Post} from "../types/type"
 
 export default function PreviewSection({
     sectionName,
     previewPosts,
 }: {
     sectionName: string
-    previewPosts: Array<previewPost>
+    previewPosts: Array<Post>
 }) {
     return (
         <div className="mb-8">

@@ -46,9 +46,8 @@ export default function Login() {
 
             if (response.valid) {
                 router.push("/dashboard")
-            } else {
-                // console.log("not redirecting")
             }
+            
         } catch (error) {
             console.error(error)
         } finally {

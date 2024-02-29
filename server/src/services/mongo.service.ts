@@ -1,5 +1,5 @@
 import mongoose, {Schema} from "mongoose"
-import {Post, rawEditPost} from "../types/services/mongo.types"
+import {Post, rawEditPost} from "../types/post.types"
 
 class MongooseService {
     constructor() {
@@ -14,6 +14,7 @@ class MongooseService {
             author: {type: String, required: true},
             category: {type: String, required: true},
             slug: {type: String, required: true, unique: true},
+            date: {type: String, required: true},
             views: {type: Number},
         },
         {timestamps: true, versionKey: false}

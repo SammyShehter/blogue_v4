@@ -1,4 +1,4 @@
-import {ErrorCode} from "../types/utils/errorCodes.types"
+import {ErrorCode} from "../types/errorCodes.types"
 
 export class ErrorCodes {
     static get GENERAL_ERROR(): ErrorCode {
@@ -49,7 +49,7 @@ export class ErrorCodes {
         return {
             message: "ACCESS DENIED",
             action: "You're not allowed to see the data",
-            innerMessage: `User requested ${path} and failed in ${here}`,
+            innerMessage: `User requested ${JSON.stringify(path)} and failed in ${JSON.stringify(here)}`,
             alert: 5,
         }
     }
@@ -68,6 +68,15 @@ export class ErrorCodes {
             message: "POST CANT BE UPDATED",
             action: "Please add at least one update to the post",
             innerMessage: `User sent an empty update request`,
+            alert: 5,
+        }
+    }
+
+    static POSTS_BATCH_UNAVAILABLE(page: string): ErrorCode {
+        return {
+            message: "POSTS BATCH UNAVAILABLE",
+            action: "Please use valid page number",
+            innerMessage: `User sent ${JSON.stringify(page)} as page for batch`,
             alert: 5,
         }
     }

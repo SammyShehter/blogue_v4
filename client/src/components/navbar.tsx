@@ -12,7 +12,7 @@ export default function NavBar() {
                     <SiteLogo className="w-20" />
                 </Link>
                 <div className="flex space-x-4 items-center">
-                    <Link href="/posts" className="hover:text-gray-700">
+                    <Link href="/posts/1" className="hover:text-gray-700">
                         Posts
                     </Link>
                     <Link href="/tags" className="hover:text-gray-700">

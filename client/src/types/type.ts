@@ -1,8 +1,8 @@
 export type Repo = {
     status: string
-    data: Array<previewPost>
+    data: Array<Post>
 }
-export type previewPost = {
+export type Post = {
     title: string
     description: string
     author: string
@@ -13,9 +13,10 @@ export type previewPost = {
     updatedAt: string
     batch: number
     date: string
+    content: string
 }
 
-export type Post = {
+export type ApiPost = {
     status: string
     data: {
         title: string

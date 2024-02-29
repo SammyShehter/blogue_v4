@@ -39,3 +39,19 @@
     rotate: 6deg;
     color: lightskyblue;
 }
+
+@keyframes shimmer {
+    0% {
+      background-position: -40rem 0;
+    }
+  
+    100% {
+      background-position: 40rem 0;
+    }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 1.5s infinite linear;
+    background: linear-gradient(90deg, #f3f3f3 0%, #ecebeb 50%, #f3f3f3 100%);
+    background-size: 40rem 100%;
+  }

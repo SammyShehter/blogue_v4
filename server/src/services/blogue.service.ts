@@ -1,11 +1,13 @@
 import axios from "axios"
-import {
-    generatedPost,
-    newPost,
-    rawEditPost,
-} from "../types/services/mongo.types"
+import {Post, generatedPost, newPost, rawEditPost} from "../types/post.types"
 import {ErrorCodes} from "../utils/errorCodes"
 import mongoService from "./mongo.service"
+import {formattedTime} from "../utils/common"
+
+const cachedPosts = new Map<string, Post>()
+const cachedPaginatedPosts: Array<Array<Post>> = []
+const featuredPosts = new Map<string, Post>()
+let maxBatch = 0
 
 export const lastPosts = async () => {
     const posts = await mongoService.fetchLastPosts()
@@ -16,9 +18,14 @@ export const fetchPost = async (
     slug: string,
     updateCounter: boolean = true
 ) => {
+    await new Promise((res, rej) => setTimeout(res, 5000))
+    if (cachedPosts.has(slug)) {
+        return cachedPosts.get(slug)
+    }
     const post = await mongoService.fetchPost(slug)
     if (!post) throw ErrorCodes.POST_UNAVAILABLE
     updateCounter && mongoService.editPost({slug, views: post.views + 1})
+    cachedPosts.set(slug, post)
     return post
 }
 
@@ -30,11 +37,13 @@ export const addPost = async (newPost: newPost, description?: string) => {
     }
     const slug = newPost.title.toLowerCase().split(" ").join("-")
     const author = "Sammy Shehter"
-    const post = {
+    const date = formattedTime(Date.now())
+    const post: Post = {
         ...newPost,
         slug,
         description,
         author,
+        date,
         views: 1,
     }
     const addedPost = await mongoService.addPost(post)
@@ -63,4 +72,47 @@ export const askAItoGenerate = async (
         }
     )
     return response.data.message
+}
+
+export const getPaginatedPosts = async (): Promise<{
+    paginatedPosts: Array<Array<Post>>
+    maxBatch: number
+}> => {
+    if (cachedPaginatedPosts.length) {
+        return {
+            paginatedPosts: cachedPaginatedPosts,
+            maxBatch,
+        }
+    }
+    const posts = await lastPosts()
+    const paginatedPosts = []
+    posts.forEach(async (post, index) => {
+        if (!paginatedPosts[Math.floor(index / 2)]) {
+            paginatedPosts[Math.floor(index / 2)] = []
+        }
+        paginatedPosts[Math.floor(index / 2)].push(post)
+        featuredPosts.set(post.slug, post)
+    })
+    maxBatch = paginatedPosts.length
+    return {paginatedPosts, maxBatch}
+}
+
+export const getPaginatedBatch = async (
+    rawPage: string
+): Promise<{
+    paginatedBatch: Array<Post>
+    maxBatch: number
+}> => {
+    await new Promise((res, rej) => setTimeout(res, 5000))
+    if (!rawPage) {
+        throw ErrorCodes.POSTS_BATCH_UNAVAILABLE(rawPage)
+    }
+    let page = +rawPage - 1
+    if (!Number.isInteger(+page) || isNaN(+page)) {
+        throw ErrorCodes.POSTS_BATCH_UNAVAILABLE(rawPage)
+    }
+    const {maxBatch, paginatedPosts} = await getPaginatedPosts()
+    if (page > maxBatch) page = maxBatch
+    if (page <= 0) page = 1
+    return {paginatedBatch: paginatedPosts[page], maxBatch: maxBatch+1}
 }
