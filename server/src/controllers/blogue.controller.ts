@@ -8,8 +8,8 @@ import {
 
 export const fetchLastPosts = async (req: Request, res: Response) => {
     try {
-        const posts = await blogueService.lastPosts()
-        return handleSuccess(posts, res)
+        const {paginatedPosts} = await blogueService.getPaginatedPosts()
+        return handleSuccess(paginatedPosts.flat(), res)
     } catch (error: any) {
         return handleError(error, res)
     }

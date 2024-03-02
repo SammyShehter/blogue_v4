@@ -3,8 +3,9 @@ import Sidebar from "@/components/admin/sideBar"
 import Login from "../../login/page"
 import {getSessionData} from "@/utils/actions"
 import ContentLayout from "@/components/contentLayout"
+import NewPost from "@/components/admin/newPost"
 
-export default async function Settings() {
+export default async function Page() {
     const session = await getSessionData()
     if (session.error) {
         return <Login />
@@ -14,15 +15,16 @@ export default async function Settings() {
 
     return (
         <div className="flex flex-col">
-        <AdminHeader data={{userRole, userName}} />
-        <div className="flex">
-            <Sidebar />
-            <ContentLayout>
-                <h1 className="text-2xl font-bold">
-                    Welcometo Dashboard Settings
-                </h1>
-            </ContentLayout>
+            <AdminHeader data={{userRole, userName}} />
+            <div className="flex">
+                <Sidebar />
+                <ContentLayout>
+                    <h1 className="text-2xl font-bold">
+                        Please create new post here
+                    </h1>
+                    <NewPost />
+                </ContentLayout>
+            </div>
         </div>
-    </div>
     )
 }

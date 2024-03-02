@@ -29,9 +29,9 @@ const Sidebar = () => {
     return (
         <div
             ref={sidebarRef}
-            className={`bg-gray-800 text-white h-screen flex flex-col transition-all ${
+            className={`bg-gray-800 text-white flex flex-col transition-all ${
                 isExpanded ? "w-64" : "w-16"
-            }`}
+            } min-h-screen`}
         >
             <div
                 onClick={handleClickInside}
@@ -43,7 +43,7 @@ const Sidebar = () => {
                     <h1 className="text-lg font-bold">AD</h1>
                 )}
             </div>
-            <div className="flex-1 text-center w-full">
+            <div className="flex-1 text-center">
                 <nav>
                     <ul>
                         <li>
@@ -71,14 +71,14 @@ const Sidebar = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/users">
+                            <Link href="/dashboard/post">
                                 {isExpanded ? (
                                     <p className="py-2 hover:bg-gray-700">
-                                        Users
+                                        Add Post
                                     </p>
                                 ) : (
                                     <p className="block py-2 hover:bg-gray-700">
-                                        U
+                                        A
                                     </p>
                                 )}
                             </Link>

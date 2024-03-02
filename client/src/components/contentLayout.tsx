@@ -3,7 +3,7 @@ export default function ContentLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
-    return <div className="p-4">
+    return <div className="p-4 flex-1">
         {children}
     </div>
 }

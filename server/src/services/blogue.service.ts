@@ -18,7 +18,6 @@ export const fetchPost = async (
     slug: string,
     updateCounter: boolean = true
 ) => {
-    await new Promise((res, rej) => setTimeout(res, 5000))
     if (cachedPosts.has(slug)) {
         return cachedPosts.get(slug)
     }
@@ -103,7 +102,6 @@ export const getPaginatedBatch = async (
     paginatedBatch: Array<Post>
     maxBatch: number
 }> => {
-    await new Promise((res, rej) => setTimeout(res, 5000))
     if (!rawPage) {
         throw ErrorCodes.POSTS_BATCH_UNAVAILABLE(rawPage)
     }

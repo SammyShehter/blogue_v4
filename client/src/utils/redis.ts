@@ -9,5 +9,15 @@ redis.on("error", (error: unknown) => {
     console.warn("[Redis] Error connecting", error)
 })
 export const userData = async (hash: string) => await redis.get(`user:${hash}`)
-export const deleteSession = async (hash: string) => await redis.del(`user:${hash}`)
+export const deleteSession = async (hash: string) =>
+    await redis.del(`user:${hash}`)
+
+export const saveDraft = async (
+    draftKey: string,
+    data: {content: string; title: string; category: string}
+) => await redis.set(`draft:${draftKey}`, JSON.stringify(data))
+export const getDraft = async (draftKey: string) =>
+    await redis.get(`draft:${draftKey}`)
+export const deleteDraft = async (draftKey: string) =>
+    await redis.del(`draft:${draftKey}`)
 export default redis

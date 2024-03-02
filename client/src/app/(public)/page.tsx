@@ -1,8 +1,14 @@
 import Link from "next/link"
 import { ArrowRight } from "@/components/logo"
 import PreviewSection from "@/components/previewSection"
+import { fetchLatestPosts } from "@/utils/postRepo"
 
 export default async function Home() {
+    const {data, status} = await fetchLatestPosts()
+    if(status !== "SUCCESS") {
+        data.length = 0
+    }
+
     return (
         <>
             <header className="text-6xl font-bold text-center my-12">
@@ -22,12 +28,12 @@ export default async function Home() {
                 to read them all.
             </p>
             <PreviewSection
-                previewPosts={[]}
+                previewPosts={data.slice(0, 3)}
                 sectionName="Featured"
             />
             <div className="border-b my-10"></div>
             <PreviewSection
-                previewPosts={[]}
+                previewPosts={data.slice(0, 3)}
                 sectionName="Recent Posts"
             />
             <div className="flex space-x-2 items-center justify-center">
