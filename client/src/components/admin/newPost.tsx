@@ -7,7 +7,7 @@ export default function NewPost() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [category, setCategory] = useState("")
-    const [draftKey, setDraftKey] = useState("")
+    const [draftKey, setDraftKey] = useState(`${Date.now()}`)
 
     const onSave = (e: any) => {
         e.preventDefault()
@@ -17,9 +17,7 @@ export default function NewPost() {
 
     const onDraft = async (e: any) => {
         e.preventDefault()
-        console.log("call")
-        // rerenders and enters loop
-        await saveDraft({title, content, category, draftKey})
+        await saveDraft(draftKey, {title, content, category})
     }
     return (
         <div className="flex justify-between">
