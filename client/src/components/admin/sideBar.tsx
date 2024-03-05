@@ -47,7 +47,7 @@ const Sidebar = () => {
                 <nav>
                     <ul>
                         <li>
-                            <Link href="/dashboard">
+                            <Link href="/dashboard/drafts">
                                 {isExpanded ? (
                                     <p className="py-2 hover:bg-gray-700">
                                         Dashboard

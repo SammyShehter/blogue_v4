@@ -3,11 +3,11 @@ import {confirmPost, saveDraft} from "@/utils/actions"
 import {useState} from "react"
 import MarkdownRenderer from "../markdown"
 
-export default function NewPost() {
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("")
-    const [category, setCategory] = useState("")
-    const [draftKey, setDraftKey] = useState(`${Date.now()}`)
+export default function NewPost(props: {title?: string, content?: string, category?: string, draftKey?: string}) {
+    const [title, setTitle] = useState(props?.title || '')
+    const [content, setContent] = useState(props?.content || '')
+    const [category, setCategory] = useState(props?.category || '')
+    const [draftKey, setDraftKey] = useState(props?.draftKey || `${Date.now()}`)
 
     const onSave = (e: any) => {
         e.preventDefault()

@@ -78,13 +78,13 @@ export async function confirmPost(data: any) {
     // Example: fetch(`/api/posts/add`, { method: 'POST', body: JSON.stringify({ title, content, category }) });
 }
 
-export async function fetchAllDraftKeys() {
-    "use server"
-    const session = await getSessionData();
-    if(session.error) {
-        // should add alert?
-        return
-    }
-    const keys = await getAllDraftKeys()
-    return keys
-}
+// export async function fetchAllDraftKeys() {
+//     "use server"
+//     const session = await getSessionData();
+//     if(session.error) {
+//         // should add alert?
+//         return []
+//     }
+//     const keys = await getAllDraftKeys()
+//     return keys
+// }

@@ -2,6 +2,7 @@
 import {useState, FormEvent, useEffect} from "react"
 import {useRouter} from "next/navigation"
 import {authenticate, deleteCookies} from "@/utils/actions"
+import { dayNightBg } from "@/utils/utils"
 
 export default function Login() {
     const router = useRouter()
@@ -14,18 +15,6 @@ export default function Login() {
     useEffect(() => {
         deleteCookies()
     }, [])
-
-    const dayNightBg = () => {
-        const clock = new Date().getHours()
-        const inlineStyle = {
-            background: 'url("./12.jpeg") center',
-            backgroundSize: "cover",
-        }
-        clock > 7 && clock < 19
-            ? (inlineStyle.background = 'url("./12.jpeg") center')
-            : (inlineStyle.background = 'url("./24.jpeg") center')
-        return inlineStyle
-    }
 
     const changeHandler = (event: any) => {
         setForm({

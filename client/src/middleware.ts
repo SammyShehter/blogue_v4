@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { hashString } from "./utils/utils"
+import { deleteCookies } from "./utils/actions"
 
 const protectedRoutes = [
     '/dashboard',

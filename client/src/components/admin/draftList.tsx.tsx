@@ -1,25 +1,23 @@
-"use client"
-import { fetchAllDraftKeys } from "@/utils/actions"
-import { useEffect, useState } from "react"
+import {getAllDraftKeys} from "@/utils/redis"
+import Link from "next/link"
 
-export default function DraftList() {
-    const [draftKeyList, setDraftKeyList] = useState([])
-    const [selectdDraftKey, setSelectedDraftKeyList] = useState("")
+export default async function DraftList() {
+    const draftKeys = await getAllDraftKeys() // needs param for defining ownership
+    if (!draftKeys || !draftKeys.length) {
+        return <h1>No drafts found</h1>
+    }
+    const draftRender = draftKeys.map((draftKey, index) => {
+        const draft = draftKey.slice(6)
+        return (
+            <Link href={`/dashboard/post/${draft}`} key={index}>
+                <h1>{draftKey}</h1>
+            </Link>
+        )
+    })
 
-    useEffect(() => {
-        const draftKeyList = fetchAllDraftKeys().then((data: any) => {
-            console.log(data)
-            if(data) {
-                setDraftKeyList(data)
-            }
-            
-        })
-        
-    }, [])
     return (
         <div className="flex justify-between">
-            <div>{draftKeyList.map(draftKey => <h1>{draftKey}</h1>)}</div>
-            <h1>{selectdDraftKey ? `You've selected ${selectdDraftKey}` : 'No key selected'}</h1>
+            <div>{draftRender}</div>
         </div>
     )
 }
