@@ -29,7 +29,7 @@ const Sidebar = () => {
     return (
         <div
             ref={sidebarRef}
-            className={`bg-gray-800 text-white flex flex-col transition-all ${
+            className={`bg-gray-800 text-white flex flex-col transition-all3 ${
                 isExpanded ? "w-64" : "w-16"
             } min-h-screen`}
         >

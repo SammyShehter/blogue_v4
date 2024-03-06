@@ -3,6 +3,7 @@ import type {Post, Repo} from "../types/type"
 const blogueUrl = "http://localhost:4747"
 const headers = new Headers()
 headers.append("inner_request", "1")
+headers.append("Content-Type", "application/json")
 
 export async function fetchLatestPosts(): Promise<Repo> {
     const res = await fetch(`${blogueUrl}/api/posts`, {
@@ -34,4 +35,35 @@ export async function getPaginatedBatch(page: number): Promise<{
     })
     const batch = await res.json()
     return batch
+}
+
+export async function createPost(data: {
+    title: string
+    content: string
+    category: string
+}): Promise<{
+    status: string
+    errors: {
+        message: string
+        action: string
+    }
+}> {
+    try {
+        const res = await fetch(`${blogueUrl}/api/posts/add`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(data),
+        })
+        const resData = await res.json()
+        return resData
+    } catch (error: any) {
+        console.log(error.message)
+        return {
+            status: "FAILED",
+            errors: {
+                action: "",
+                message: error.message,
+            },
+        }
+    }
 }
