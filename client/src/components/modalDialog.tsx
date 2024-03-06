@@ -1,15 +1,18 @@
-import {useState} from "react"
+import {moods} from "@/utils/enums"
+import {useEffect, useRef, useState} from "react"
 
 export default function ModalDialog({
     message,
+    actionMessage,
+    mood,
     onClose,
     onAction,
-    mood,
 }: {
     message: string
+    actionMessage: string
     onClose: Function
     onAction: Function
-    mood: "happy" | "bored" | "mad"
+    mood: "happy" | "bored" | "dance"
 }) {
     const [isOpen, setIsOpen] = useState(true)
 
@@ -27,7 +30,9 @@ export default function ModalDialog({
         <>
             {isOpen && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-                    <div className="bg-white rounded-lg p-8 flex flex-col items-center">
+                    <div
+                        className="bg-white rounded-lg p-8 flex flex-col items-center"
+                    >
                         <button
                             onClick={handleClose}
                             className="text-gray-500 hover:text-gray-700 self-end"
@@ -47,13 +52,13 @@ export default function ModalDialog({
                                 />
                             </svg>
                         </button>
-                        <img src=""></img>
+                        <img src={moods[mood]}></img>
                         <div className="mb-4">{message}</div>
                         <button
                             onClick={handleAction}
                             className="bg-blue-500 text-white px-4 py-2 rounded"
                         >
-                            Action
+                            {actionMessage}
                         </button>
                     </div>
                 </div>

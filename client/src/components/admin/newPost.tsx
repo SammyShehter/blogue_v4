@@ -3,6 +3,8 @@ import {confirmPost, removeDraft, saveDraft} from "@/utils/actions"
 import {useState} from "react"
 import MarkdownRenderer from "../markdown"
 import ModalDialog from "../modalDialog"
+import {useRouter} from "next/navigation"
+import {useModal} from "@/utils/hooks."
 
 export default function NewPost(props: {
     title?: string
@@ -10,7 +12,8 @@ export default function NewPost(props: {
     category?: string
     draftKey?: string
 }) {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const router = useRouter()
+    const [isModalOpen, openModal, closeModal] = useModal()
 
     const [title, setTitle] = useState(props?.title || "")
     const [content, setContent] = useState(props?.content || "")
@@ -19,11 +22,12 @@ export default function NewPost(props: {
 
     const onSave = async (e: any) => {
         e.preventDefault()
-        // const response = await confirmPost({title, content, category})
-        // if(response.valid) {
-        //     await removeDraft(draftKey)
-        // }
-        setIsModalOpen(true)
+        const response = await confirmPost({title, content, category})
+        if(response.valid) {
+            await removeDraft(draftKey)
+            openModal()
+        }
+        
     }
 
     const onDraft = async (e: any) => {
@@ -32,20 +36,27 @@ export default function NewPost(props: {
     }
 
     const handleCloseModal = () => {
-        setIsModalOpen(false)
+        closeModal()
+        router.push(
+            "/dashboard/post"
+        )
     }
 
     const handleAction = () => {
-        setIsModalOpen(false)
+        closeModal()
+        router.push(
+            "/posts/the-java-vs.-javascript-battle:-exploring-the-differences-in-2010"
+        )
     }
     return (
         <>
             {isModalOpen && (
                 <ModalDialog
-                    message="This is a message for the modal"
+                    message={`Post "${title}" uploaded succesfully`}
+                    actionMessage="Go to post page"
+                    mood="happy"
                     onClose={handleCloseModal}
                     onAction={handleAction}
-                    mood="happy"
                 />
             )}
             <div className="flex justify-between">
