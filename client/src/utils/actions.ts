@@ -89,6 +89,26 @@ export async function confirmPost(data: {
     return {valid: true}
 }
 
+export async function confirmEditPost(data: {
+    title: string
+    content: string
+    category: string
+}): Promise<{valid: boolean, message?: string}> {
+    const session = await getSessionData()
+    if (session.error) {
+        // should add alert?
+        return {valid: false}
+    }
+
+    const response = await createPost(data)
+
+    if (!response.status || response.status === "FAILURE") {
+        return {valid: false, message: response.errors.message}
+    }
+
+    return {valid: true}
+}
+
 export async function removeDraft(draftNumber: string): Promise<{valid: boolean}> {
 
     const session = await getSessionData();

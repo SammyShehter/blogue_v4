@@ -67,3 +67,38 @@ export async function createPost(data: {
         }
     }
 }
+
+export async function editPost(
+    slug: string,
+    data: {
+        title: string
+        content: string
+        category: string,
+        description: string
+    }
+): Promise<{
+    status: string
+    errors: {
+        message: string
+        action: string
+    }
+}> {
+    try {
+        const res = await fetch(`${blogueUrl}/api/posts/edit/${slug}`, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(data),
+        })
+        const resData = await res.json()
+        return resData
+    } catch (error: any) {
+        // console.log(error.message) // Kek Alert ? 
+        return {
+            status: "FAILED",
+            errors: {
+                action: "",
+                message: error.message,
+            },
+        }
+    }
+}

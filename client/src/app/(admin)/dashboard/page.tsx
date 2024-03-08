@@ -5,6 +5,7 @@ import Sidebar from "@/components/admin/sideBar"
 import AdminHeader from "@/components/admin/header"
 import ContentLayout from "@/components/contentLayout"
 import { fetchLatestPosts } from "@/utils/postRepo"
+import Link from "next/link"
 
 export default async function Dashboard() {
     const session = await getSessionData()
@@ -31,7 +32,7 @@ export default async function Dashboard() {
                             <div className="flex flex-col">
                                 {
                                     latestPosts.data.map(post => {
-                                        return <p key={post.slug}>{post.title}</p> 
+                                        return <Link href={`/dashboard/post/edit/${post.slug}`} key={post.slug}>{post.title}</Link> 
                                     })
                                 }
                             </div>

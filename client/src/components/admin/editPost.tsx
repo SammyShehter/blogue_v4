@@ -5,11 +5,14 @@ import MarkdownRenderer from "../markdown"
 import ModalDialog from "../modalDialog"
 import {useRouter} from "next/navigation"
 import {useModal} from "@/utils/hooks."
+import { editPost } from "@/utils/postRepo"
 
-export default function NewPost(props: {
+export default function EditPost(props: {
+    slug?: string
     title?: string
     content?: string
-    category?: string
+    category?: string,
+    description?: string,
     draftKey?: string
 }) {
     const router = useRouter()
@@ -18,11 +21,13 @@ export default function NewPost(props: {
     const [title, setTitle] = useState(props?.title || "")
     const [content, setContent] = useState(props?.content || "")
     const [category, setCategory] = useState(props?.category || "")
+    const [description, setDescription] = useState(props?.description || "")
+    const [slug, setSlug] = useState(props?.description || "")
     const [draftKey, setDraftKey] = useState(props?.draftKey || `${Date.now()}`)
 
     const onSave = async (e: any) => {
         e.preventDefault()
-        const response = await confirmPost({title, content, category})
+        const response = await confirmEditPost(slug, {title, content, category, description})
         if(response.valid) {
             await removeDraft(draftKey)
             openModal()
@@ -52,7 +57,7 @@ export default function NewPost(props: {
         <>
             {isModalOpen && (
                 <ModalDialog
-                    message={`Post "${title}" uploaded succesfully`}
+                    message={`Post "${title}" edited succesfully`}
                     actionMessage="Go to post page"
                     mood="happy"
                     onClose={handleCloseModal}
