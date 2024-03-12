@@ -111,6 +111,6 @@ export const getPaginatedBatch = async (
     }
     const {maxBatch, paginatedPosts} = await getPaginatedPosts()
     if (page > maxBatch) page = maxBatch
-    if (page <= 0) page = 1
+    if (page < 0) page = 1
     return {paginatedBatch: paginatedPosts[page], maxBatch: maxBatch+1}
 }

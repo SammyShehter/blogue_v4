@@ -3,7 +3,7 @@ import {cookies} from "next/headers"
 import axios from "axios"
 import {hashString} from "./utils"
 import {deleteDraft, deleteSession, sendDraftToRedis, userData} from "./redis"
-import {createPost} from "./postRepo"
+import {createPost, editPost} from "./postRepo"
 
 export async function deleteCookies() {
     const tokenData = cookies().get("token")
@@ -89,10 +89,11 @@ export async function confirmPost(data: {
     return {valid: true}
 }
 
-export async function confirmEditPost(data: {
+export async function confirmEditPost(slug: string, data: {
     title: string
     content: string
     category: string
+    description: string
 }): Promise<{valid: boolean, message?: string}> {
     const session = await getSessionData()
     if (session.error) {
@@ -100,7 +101,7 @@ export async function confirmEditPost(data: {
         return {valid: false}
     }
 
-    const response = await createPost(data)
+    const response = await editPost(slug, data)
 
     if (!response.status || response.status === "FAILURE") {
         return {valid: false, message: response.errors.message}

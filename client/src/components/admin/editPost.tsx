@@ -1,18 +1,23 @@
 "use client"
-import {confirmPost, removeDraft, saveDraft} from "@/utils/actions"
+import {
+    confirmEditPost,
+    confirmPost,
+    removeDraft,
+    saveDraft,
+} from "@/utils/actions"
 import {useState} from "react"
 import MarkdownRenderer from "../markdown"
 import ModalDialog from "../modalDialog"
 import {useRouter} from "next/navigation"
 import {useModal} from "@/utils/hooks."
-import { editPost } from "@/utils/postRepo"
+import {editPost} from "@/utils/postRepo"
 
 export default function EditPost(props: {
     slug?: string
     title?: string
     content?: string
-    category?: string,
-    description?: string,
+    category?: string
+    description?: string
     draftKey?: string
 }) {
     const router = useRouter()
@@ -22,17 +27,21 @@ export default function EditPost(props: {
     const [content, setContent] = useState(props?.content || "")
     const [category, setCategory] = useState(props?.category || "")
     const [description, setDescription] = useState(props?.description || "")
-    const [slug, setSlug] = useState(props?.description || "")
+    const [slug, setSlug] = useState(props?.slug || "")
     const [draftKey, setDraftKey] = useState(props?.draftKey || `${Date.now()}`)
 
     const onSave = async (e: any) => {
         e.preventDefault()
-        const response = await confirmEditPost(slug, {title, content, category, description})
-        if(response.valid) {
+        const response = await confirmEditPost(slug, {
+            title,
+            content,
+            category,
+            description,
+        })
+        if (response.valid) {
             await removeDraft(draftKey)
             openModal()
         }
-        
     }
 
     const onDraft = async (e: any) => {
@@ -42,9 +51,7 @@ export default function EditPost(props: {
 
     const handleCloseModal = () => {
         closeModal()
-        router.push(
-            "/dashboard/post"
-        )
+        router.push("/dashboard/post")
     }
 
     const handleAction = () => {
@@ -84,6 +91,23 @@ export default function EditPost(props: {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     />
+                    <label className="block mb-2 font-semibold text-gray-800">
+                        Slug
+                    </label>
+                    <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4"
+                        value={slug}
+                        onChange={(e) => setSlug(e.target.value)}
+                    />
+                    <label className="block mb-2 font-semibold text-gray-800">
+                        Description
+                    </label>
+                    <textarea
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
                     <label className="block mb-2 font-semibold text-gray-800">
                         Content
                     </label>

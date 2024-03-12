@@ -35,7 +35,7 @@ export default async function Page({params}: {params: {slug: string}}) {
                     <h1 className="text-2xl font-bold">
                         Please edit post here
                     </h1>
-                    <EditPost title={data.title} category={data.category} content={data.content}/>
+                    <EditPost title={data.title} category={data.category} content={data.content} description={data.description} slug={data.slug}/>
                 </ContentLayout>
             </div>
         </div>

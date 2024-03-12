@@ -20,7 +20,14 @@ export default async function Page() {
             <div className="flex">
                 <Sidebar />
                 <ContentLayout>
-                    <DraftList />
+                    <div className="flex">
+                        <div className="min-w-48">
+                            <DraftList />
+                        </div>
+                        <div className="self-auto">
+                            <DraftList />
+                        </div>
+                    </div>
                 </ContentLayout>
             </div>
         </div>

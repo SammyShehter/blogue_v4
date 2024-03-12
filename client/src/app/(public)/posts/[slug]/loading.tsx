@@ -16,8 +16,6 @@ export default function Loading() {
                         </div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>
-                        <div className="w-96 h-4 animate-shimmer mb-1"></div>
-                        <div className="w-96 h-4 animate-shimmer mb-1"></div>
                     </article>
                     <article className="py-4">
                         <div className="w-96 h-8 animate-shimmer mb-2"></div>
@@ -27,8 +25,6 @@ export default function Loading() {
                             <Calendar className="fill-gray-300" />
                             <div className="w-24 h-2 animate-shimmer"></div>
                         </div>
-                        <div className="w-96 h-4 animate-shimmer mb-1"></div>
-                        <div className="w-96 h-4 animate-shimmer mb-1"></div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>
                     </article>
