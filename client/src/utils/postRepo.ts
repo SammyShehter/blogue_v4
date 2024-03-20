@@ -1,6 +1,6 @@
 import type {Post, Repo} from "../types/type"
 
-const blogueUrl = "http://localhost:4747"
+const blogueUrl = process.env.BLOGUE_URL
 const headers = new Headers()
 headers.append("inner_request", "1")
 headers.append("Content-Type", "application/json")

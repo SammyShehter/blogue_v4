@@ -37,7 +37,7 @@ export async function authenticate(credentials: {
 }): Promise<{valid: boolean}> {
     try {
         const response = await axios.post(
-            "http://localhost:9000/login",
+            `${process.env.AUTH_SERVICE}/login`,
             credentials,
             {}
         )

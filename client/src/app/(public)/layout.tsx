@@ -4,10 +4,6 @@ import "../globals.css"
 
 const inter = IBM_Plex_Mono({subsets: ["latin"], weight: "400"})
 
-export const globalData = {
-    siteUrl: 'http://localhost:3000'
-}
-
 export const metadata: Metadata = {
     title: "Sammy Shehter Blogue",
     description: "Fancy programmer life stories",

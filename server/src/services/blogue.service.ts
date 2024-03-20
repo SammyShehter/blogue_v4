@@ -62,7 +62,7 @@ export const askAItoGenerate = async (
     theme: string
 ): Promise<generatedPost> => {
     const response = await axios.post(
-        "http://localhost:8000/blogue",
+        `${process.env.AI_SERVICE}/blogue`,
         {theme},
         {
             headers: {
