@@ -3,7 +3,7 @@ import PreviewSection from "@/components/previewSection"
 import {ArrowLeft, ArrowRight} from "@/components/logo"
 import {getPaginatedBatch} from "@/utils/postRepo"
 import {redirect} from "next/navigation"
-export default async function Posts({page}: {page: number}) {
+export default async function Posts({page}: any) {
     if (!page || page <= 0) {
         return redirect("/posts/1")
     }
