@@ -1,4 +1,3 @@
-"use server"
 import {getSessionData} from "@/utils/actions"
 import Login from "../login/page"
 import Sidebar from "@/components/admin/sideBar"
@@ -16,7 +15,6 @@ export default async function Dashboard() {
     const userName = session?.data?.username
 
     const latestPosts = await fetchLatestPosts()
-
     switch (userRole) {
         case "ADMIN":
             return (

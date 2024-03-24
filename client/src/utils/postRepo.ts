@@ -21,6 +21,7 @@ export async function getPost(
         method: "GET",
         headers,
     })
+    
     const post = await res.json()
     return post
 }

@@ -9,7 +9,7 @@ export default async function DraftList() {
     const draftRender = draftKeys.map((draftKey, index) => {
         const draft = draftKey.slice(6)
         return (
-            <Link href={`/dashboard/post/${draft}`} key={index}>
+            <Link href={`/dashboard/post/draft/${draft}`} key={index}>
                 <h1>{draftKey}</h1>
             </Link>
         )

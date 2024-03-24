@@ -27,18 +27,19 @@ export default async function Home() {
                 </a>
                 to read them all.
             </p>
-            <PreviewSection
-                previewPosts={data.slice(0, 3)}
-                sectionName="Featured"
-            />
-            <div className="border-b my-10"></div>
-            <PreviewSection
-                previewPosts={data.slice(0, 3)}
-                sectionName="Recent Posts"
-            />
-            <div className="flex space-x-2 items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <PreviewSection
+                    previewPosts={data.slice(0, 3)}
+                    sectionName="Featured"
+                />
+                <PreviewSection
+                    previewPosts={data.slice(0, 3)}
+                    sectionName="Recent Posts"
+                />
+            </div>
+            <div className="flex max-md:flex-row space-x-0 items-center justify-center mt-8">
                 <Link href="/posts/1">
-                    <p>All Posts</p>
+                    <p className="text-center md:text-left">All Posts</p>
                 </Link>
                 <ArrowRight className="" />
             </div>
