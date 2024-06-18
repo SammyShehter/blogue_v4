@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { ArrowRight } from "@/components/logo"
 import PreviewSection from "@/components/previewSection"

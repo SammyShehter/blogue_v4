@@ -2,7 +2,7 @@
 import {useState, FormEvent, useEffect} from "react"
 import {useRouter} from "next/navigation"
 import {authenticate, deleteCookies} from "@/utils/actions"
-import { dayNightBg } from "@/utils/utils"
+import {dayNightBg} from "@/utils/utils"
 
 export default function Login() {
     const router = useRouter()
@@ -36,7 +36,6 @@ export default function Login() {
             if (response.valid) {
                 router.push("/dashboard")
             }
-            
         } catch (error) {
             console.error(error)
         } finally {

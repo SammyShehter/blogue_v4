@@ -1,28 +1,8 @@
-import AdminHeader from "@/components/admin/header"
-import Sidebar from "@/components/admin/sideBar"
-import Login from "../../login/page"
-import {getSessionData} from "@/utils/actions"
-import ContentLayout from "@/components/contentLayout"
 
 export default async function Settings() {
-    const session = await getSessionData()
-    if (session.error) {
-        return <Login />
-    }
-    const userRole = session?.data?.role?.value
-    const userName = session?.data?.username
-
     return (
-        <div className="flex flex-col">
-        <AdminHeader data={{userRole, userName}} />
-        <div className="flex">
-            <Sidebar />
-            <ContentLayout>
-                <h1 className="text-2xl font-bold">
-                    Welcometo Dashboard Settings
-                </h1>
-            </ContentLayout>
-        </div>
-    </div>
+        <>
+            <h1 className="text-2xl font-bold">Welcometo Dashboard Settings</h1>
+        </>
     )
 }

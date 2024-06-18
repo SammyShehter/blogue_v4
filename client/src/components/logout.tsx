@@ -7,7 +7,7 @@ export default function Logout({text} : {text: string}) {
     const router = useRouter()
     const logoutFrom = async () => {
         await deleteCookies()
-        router.push("/login")
+        router.push("/")
     }
     return <button onClick={logoutFrom}>{text}</button>
 }

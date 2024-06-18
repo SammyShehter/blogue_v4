@@ -83,7 +83,7 @@ export default function NewPost(props: {
                         Content
                     </label>
                     <textarea
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 h-screen"
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 h-96"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     ></textarea>
@@ -102,8 +102,7 @@ export default function NewPost(props: {
                         </button>
                     </div>
                 </div>
-                {/* <div></div> */}
-                <div className="w-full h-screen overflow-y-auto pl-4">
+                <div className="w-full h-96 overflow-y-auto pl-4">
                     <MarkdownRenderer markdownText={content} />
                 </div>
             </div>

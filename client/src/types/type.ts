@@ -32,3 +32,13 @@ export type ApiPost = {
     date: string
     html: string
 }
+
+export type SideBardItemsData = {
+    link: string
+    displayName: string
+    shortName: string
+}
+
+export type SidebarItems = {
+    [key: string]: SideBardItemsData
+}
