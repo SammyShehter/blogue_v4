@@ -1,3 +1,4 @@
+'use server'
 import Link from "next/link"
 import PreviewSection from "@/components/previewSection"
 import {ArrowLeft, ArrowRight} from "@/components/logo"
@@ -7,6 +8,7 @@ export default async function Posts({page}: any) {
     if (!page || page <= 0) {
         return redirect("/posts/1")
     }
+    
     const {data, status} = await getPaginatedBatch(page)
 
     if (status !== "SUCCESS") {

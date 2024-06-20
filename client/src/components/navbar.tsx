@@ -13,7 +13,7 @@ export default function NavBar() {
     }
 
     return (
-        <nav className="mx-auto mb-8 pt-6 pb-8 border-b">
+        <nav className="mx-auto mb-8 pt-6 pb-8">
             <div className="mx-auto flex justify-between items-center">
                 <Link href="/" className="text-xl font-bold max-md:hidden">
                     Sammy Shehter Blogue

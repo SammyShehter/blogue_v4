@@ -3,7 +3,7 @@ import { SiteLogo } from "./logo"
 
 export default function Footer() {
     return (
-        <footer className="flex justify-between items-center mt-8 pt-8 pb-6 border-t max-md:flex-col">
+        <footer className="flex justify-between items-center mt-8 pt-8 pb-6 max-md:flex-col">
             <span className="max-md:pb-4">{new Date().getFullYear()} &copy; All Rights Reserved.</span>
             <Link href="/" className="max-md:py-4">
                 <SiteLogo className="w-20" />

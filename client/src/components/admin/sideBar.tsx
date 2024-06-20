@@ -65,9 +65,9 @@ const Sidebar = () => {
     return (
         <div
             ref={sidebarRef}
-            className={`bg-gray-800 text-white flex flex-col transition-all3 ${
+            className={`bg-gray-800 text-white flex flex-col transition-all ${
                 isExpanded ? "w-64" : "w-16"
-            } min-h-96`}
+            } h-dlv`}
         >
             <div
                 onClick={handleClickInside}

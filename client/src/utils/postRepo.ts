@@ -1,41 +1,93 @@
 import type {Post, Repo} from "../types/type"
 
+const posts: Array<Post> = []
+const paginatedBatch = new Map<number, Array<Post>>()
+let maxBatch = 0
+
 const blogueUrl = process.env.BLOGUE_URL
 const headers = new Headers()
 headers.append("inner_request", "1")
 headers.append("Content-Type", "application/json")
 
 export async function fetchLatestPosts(): Promise<Repo> {
-    const res = await fetch(`${blogueUrl}/api/posts`, {
-        method: "GET",
-        headers,
-    })
-    const parsedData: Repo = await res.json()
-    return parsedData
+    try {
+        if(posts.length) return {status: "SUCCESS", data: posts}
+        const res = await fetch(`${blogueUrl}/api/posts`, {
+            method: "GET",
+            headers,
+        })
+        const parsedData: Repo = await res.json()
+        if(parsedData.status === "SUCCESS") {
+            posts.push(...parsedData.data)
+        }
+        return parsedData
+    } catch (error: any) {
+        console.log("error in fetchLatestPosts: ", error.message)
+        return {status: "FAILED", data: []}
+    }
 }
 
 export async function getPost(
     slug: string
 ): Promise<{status: string; data: Post}> {
-    const res = await fetch(`${blogueUrl}/api/posts/post/${slug}`, {
-        method: "GET",
-        headers,
-    })
-    
-    const post = await res.json()
-    return post
+    try {
+        if (posts.length) {
+            const post = posts.find((post) => post.slug === slug)
+            if (post) {
+                return {status: "SUCCESS", data: post}
+            }
+        }
+        const res = await fetch(`${blogueUrl}/api/posts/post/${slug}`, {
+            method: "GET",
+            headers,
+        })
+
+        const post = await res.json()
+        return post
+    } catch (error: any) {
+        console.log("error in getPost: ", error.message)
+        return {
+            status: "FAILED",
+            data: {
+                title: "",
+                description: "",
+                author: "",
+                category: "",
+                slug: "",
+                views: 0,
+                createdAt: "",
+                updatedAt: "",
+                batch: 0,
+                date: "",
+                content: "",
+            },
+        }
+    }
 }
 
 export async function getPaginatedBatch(page: number): Promise<{
     status: string
     data: {maxBatch: number; paginatedBatch: Array<Post>}
 }> {
-    const res = await fetch(`${blogueUrl}/api/posts/paginated/${page}`, {
-        method: "GET",
-        headers,
-    })
-    const batch = await res.json()
-    return batch
+    try {
+        if (paginatedBatch.has(page)) {
+            return {status: "SUCCESS", data: {maxBatch, paginatedBatch: paginatedBatch.get(page) || []}}
+        }
+        const res = await fetch(`${blogueUrl}/api/posts/paginated/${page}`, {
+            method: "GET",
+            headers,
+        })
+        const batch = await res.json()
+        console.log("batch: ", batch)
+        if (batch.status === "SUCCESS") {
+            paginatedBatch.set(page, batch.data.paginatedBatch)
+            maxBatch = batch.data.maxBatch
+        }
+        return batch
+    } catch (error: any) {
+        console.log("error in getPaginatedBatch: ", error.message)
+        return {status: "FAILED", data: {maxBatch: 0, paginatedBatch: []}}
+    }
 }
 
 export async function createPost(data: {
@@ -58,7 +110,7 @@ export async function createPost(data: {
         const resData = await res.json()
         return resData
     } catch (error: any) {
-        console.log(error.message)
+        console.log("error in createPost: ", error.message)
         return {
             status: "FAILED",
             errors: {
@@ -74,7 +126,7 @@ export async function editPost(
     data: {
         title: string
         content: string
-        category: string,
+        category: string
         description: string
     }
 ): Promise<{
@@ -93,7 +145,7 @@ export async function editPost(
         const resData = await res.json()
         return resData
     } catch (error: any) {
-        // console.log(error.message) // Kek Alert ? 
+        console.log("error in editPost: ", error.message)
         return {
             status: "FAILED",
             errors: {

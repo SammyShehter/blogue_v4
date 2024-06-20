@@ -1,12 +1,12 @@
-"use client"
+"use server"
 import Link from "next/link"
-import { ArrowRight } from "@/components/logo"
+import {ArrowRight} from "@/components/logo"
 import PreviewSection from "@/components/previewSection"
-import { fetchLatestPosts } from "@/utils/postRepo"
+import {fetchLatestPosts} from "@/utils/postRepo"
 
 export default async function Home() {
     const {data, status} = await fetchLatestPosts()
-    if(status !== "SUCCESS") {
+    if (status !== "SUCCESS") {
         data.length = 0
     }
 
@@ -16,15 +16,16 @@ export default async function Home() {
                 Welcome!
             </header>
             <p className="text-base text-gray-700 mb-6">
-                The Easy Laptop Finder blog exists to help you find the perfect
-                laptop based on your needs. Our blog posts have been
-                specifically written to help you find the right laptop without
-                having technical expertise in computer hardware.
+                <b>blogue.sammyshehter.com</b> exists to help you find the
+                perfect solution you never asked. The blog have been
+                specifically written to help you find the right solution to the
+                problem, you never had!
             </p>
             <p className="text-base text-gray-700 mb-8">
                 See our feature posts below for our favorites or head on over to
                 <a href="/posts" className="text-blue-600 hover:text-blue-800">
-                    the posts page
+                    {" "}
+                    the posts page{" "}
                 </a>
                 to read them all.
             </p>

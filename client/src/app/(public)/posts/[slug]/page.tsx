@@ -21,7 +21,7 @@ export default async function Post({params}: {params: {slug: string}}) {
 
     return (
         <>
-            <div className="prose mx-auto">
+            <div className="prose mx-auto max-w-4xl">
                 <h1>{post.title}</h1>
                 <PostTime formattedTime={post.date} className="my-2" />
                 <MarkdownRender markdownText={post.content} />
