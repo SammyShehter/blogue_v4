@@ -18,7 +18,7 @@ const SessionWrapper = async ({children}: {children: React.ReactNode}) => {
             return (
                 <div className="min-h-screen">
                     <AdminHeader data={{userRole, userName}} />
-                <div className="flex">
+                <div className="flex h-screen">
                     <Sidebar />
                     <ContentLayout>
                     {children}

@@ -1,16 +1,10 @@
 "use client"
-import {
-    confirmEditPost,
-    confirmPost,
-    removeDraft,
-    saveDraft,
-} from "@/utils/actions"
+import {confirmEditPost, removeDraft, saveDraft} from "@/utils/actions"
 import {useState} from "react"
 import MarkdownRenderer from "../markdown"
 import ModalDialog from "../modalDialog"
 import {useRouter} from "next/navigation"
 import {useModal} from "@/utils/hooks."
-import {editPost} from "@/utils/postRepo"
 
 export default function EditPost(props: {
     slug?: string
@@ -71,8 +65,9 @@ export default function EditPost(props: {
                     onAction={handleAction}
                 />
             )}
-            <div className="flex justify-between">
-                <div className="w-full pr-4">
+            <div className="flex justify-between py-4">
+            <div className="w-full h-screen overflow-y-auto p-4 border border-gray-400 rounded-lg bg-[#f1ece6] mr-2">
+
                     <label className="block mb-2 font-semibold text-gray-800">
                         Title
                     </label>
@@ -131,10 +126,11 @@ export default function EditPost(props: {
                         </button>
                     </div>
                 </div>
-                {/* <div></div> */}
-                <div className="w-full h-screen overflow-y-auto pl-4">
-                    <MarkdownRenderer markdownText={content} />
-                </div>
+                {content && (
+                    <div className="w-full h-screen overflow-y-auto p-4 border border-gray-400 rounded-lg bg-[#f1ece6]">
+                        <MarkdownRenderer markdownText={content} />
+                    </div>
+                )}
             </div>
         </>
     )

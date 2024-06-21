@@ -3,7 +3,7 @@ import {cookies} from "next/headers"
 import axios from "axios"
 import {hashString} from "./utils"
 import {deleteDraft, deleteSession, sendDraftToRedis, userData} from "./redis"
-import {createPost, editPost} from "./postRepo"
+import {createPost, editPost, searchForPost} from "./postRepo"
 
 export async function deleteCookies() {
     const tokenData = cookies().get("token")
@@ -73,7 +73,7 @@ export async function confirmPost(data: {
     title: string
     content: string
     category: string
-}): Promise<{valid: boolean, message?: string}> {
+}): Promise<{valid: boolean; message?: string}> {
     const session = await getSessionData()
     if (session.error) {
         // should add alert?
@@ -89,12 +89,15 @@ export async function confirmPost(data: {
     return {valid: true}
 }
 
-export async function confirmEditPost(slug: string, data: {
-    title: string
-    content: string
-    category: string
-    description: string
-}): Promise<{valid: boolean, message?: string}> {
+export async function confirmEditPost(
+    slug: string,
+    data: {
+        title: string
+        content: string
+        category: string
+        description: string
+    }
+): Promise<{valid: boolean; message?: string}> {
     const session = await getSessionData()
     if (session.error) {
         // should add alert?
@@ -110,10 +113,11 @@ export async function confirmEditPost(slug: string, data: {
     return {valid: true}
 }
 
-export async function removeDraft(draftNumber: string): Promise<{valid: boolean}> {
-
-    const session = await getSessionData();
-    if(session.error) {
+export async function removeDraft(
+    draftNumber: string
+): Promise<{valid: boolean}> {
+    const session = await getSessionData()
+    if (session.error) {
         return {valid: false}
     }
     await deleteDraft(draftNumber)

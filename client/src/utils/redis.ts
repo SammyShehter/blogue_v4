@@ -18,10 +18,12 @@ export const sendDraftToRedis = async (
 ) => await redis.set(`draft:${draftKey}`, JSON.stringify(data))
 export const getDraft = async (draftKey: string) =>
     await redis.get(`draft:${draftKey}`)
+export const getDraftRaw = async (draftKey: string) =>
+    await redis.get(draftKey)
 export const deleteDraft = async (draftKey: string) =>
     await redis.del(`draft:${draftKey}`)
 export const getAllDraftKeys = async () => {
-    const keys = await redis.keys('draft:*');
+    const keys = await redis.keys("draft:*")
     return keys
 }
 

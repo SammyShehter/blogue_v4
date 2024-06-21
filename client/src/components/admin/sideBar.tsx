@@ -1,30 +1,37 @@
 "use client"
-import {useState, useEffect, useRef} from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Logout from "../logout"
-import {SideBardItemsData, SidebarItems} from "@/types/type"
+import { SideBardItemsData, SidebarItems } from "@/types/type"
+import { DocumentsIcon, DraftDocumentsIcon, LogoutIcon, NewDocumentIcon, SettingsIcon, SiteLogo, TMBIcon } from "../logo"
 
 const sidebarItems: SidebarItems = {
     dashboard: {
         link: "/dashboard",
         displayName: "Dashboard",
-        shortName: "Da",
+        shortName: DocumentsIcon(),
     },
     drafts: {
         link: "/dashboard/drafts",
         displayName: "Drafts",
-        shortName: "Dr",
-    },
-    settings: {
-        link: "/dashboard/settings",
-        displayName: "Settings",
-        shortName: "S",
+        shortName: DraftDocumentsIcon(),
     },
     post: {
         link: "/dashboard/post",
         displayName: "Add Post",
-        shortName: "AP",
+        shortName: NewDocumentIcon(),
     },
+    settings: {
+        link: "/dashboard/settings",
+        displayName: "Settings",
+        shortName: SettingsIcon(),
+    },
+    tmb: {
+        link: "/dashboard/tmb",
+        displayName: "TMB Logs",
+        shortName: TMBIcon(),
+    },
+
 }
 
 const SidebarItem = ({
@@ -36,46 +43,34 @@ const SidebarItem = ({
 }) => (
     <li>
         <Link href={data.link}>
-            <p className="py-2 hover:bg-gray-700">
-                {isExpanded ? data.displayName : data.shortName}
-            </p>
+            <div className="flex justify-center py-2 hover:bg-gray-700 text-nowrap">
+                {isExpanded ? <p>{data.displayName}</p> : data.shortName}
+            </div>
         </Link>
     </li>
 )
 
 const Sidebar = () => {
-    const sidebarRef = useRef(null)
     const [isExpanded, setIsExpanded] = useState(false)
-    const handleClickOutside = (event: any) => {
-        // @ts-ignore
-        if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-            setIsExpanded(false)
-        }
+    
+    const handleMouseEnter = () => {
+        setIsExpanded(true)
     }
-    const handleClickInside = () => {
-        setIsExpanded(!isExpanded)
+
+    const handleMouseLeave = () => {
+        setIsExpanded(false)
     }
-    useEffect(() => {
-        document.addEventListener("click", handleClickOutside)
-        return () => {
-            document.removeEventListener("click", handleClickOutside)
-        }
-    }, [])
 
     return (
         <div
-            ref={sidebarRef}
-            className={`bg-gray-800 text-white flex flex-col transition-all ${
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`bg-gray-800 text-white flex flex-col transition-all duration-200 ${
                 isExpanded ? "w-64" : "w-16"
-            } h-dlv`}
+            } h-screen fixed left-0 top-0 pt-12 overflow-y-auto overflow-x-hidden`}
         >
-            <div
-                onClick={handleClickInside}
-                className="flex items-center justify-center py-2 cursor-pointer mb-5"
-            >
-                <h1 className="text-lg font-bold">
-                    {isExpanded ? "Admin Dashboard" : "AD"}
-                </h1>
+            <div className="flex justify-center py-2 text-nowrap p-4">
+                {isExpanded ? <img className="size-9 w-full" src="/admin_vanilla.gif"></img> : <SiteLogo className="size-9"/>}
             </div>
             <div className="flex-1 text-center">
                 <nav>
@@ -90,11 +85,10 @@ const Sidebar = () => {
                     </ul>
                 </nav>
             </div>
-            <div className="mb-5 mx-auto">
-                <Logout text={isExpanded ? "Logout" : "L"} />
-            </div>
+                <Logout text={isExpanded ? "Logout" : LogoutIcon()} className="mb-5 w-full py-2 hover:bg-gray-700 text-nowrap text-center flex justify-center"/>
         </div>
     )
 }
+
 
 export default Sidebar

@@ -4,7 +4,7 @@ import type {NextRequest} from "next/server"
 export async function middleware(request: NextRequest & {hash: string}) {
     const {pathname} = request.nextUrl
     const currentUser = request.cookies.get("token")?.value
-    console.log(pathname)
+    console.log("Request:", pathname)
     if (!currentUser && pathname !== "/login") {
         if (pathname.includes("dashboard")) {
             return NextResponse.redirect(new URL("/login", request.url))

@@ -1,3 +1,5 @@
+import {ReactNode} from "react"
+
 export type Repo = {
     status: string
     data: Array<Post>
@@ -36,9 +38,36 @@ export type ApiPost = {
 export type SideBardItemsData = {
     link: string
     displayName: string
-    shortName: string
+    shortName: ReactNode
 }
 
 export type SidebarItems = {
     [key: string]: SideBardItemsData
+}
+
+export type TMBUserLog = {
+    last_request: number
+    is_requesting: boolean
+    violation_count: number
+    banned: boolean
+    id: number
+    userName: string
+}
+
+export type TMBSongLogs = {
+    ytLink: string
+    songName: string
+    dwLink: string
+    timestamp: number
+    hits: number
+    downloads: number
+    songColor: string
+}
+
+export type TMBLogs = {
+    [key: string]: {
+        columns: string
+        lastUpdate: Date
+        data: any
+    }
 }

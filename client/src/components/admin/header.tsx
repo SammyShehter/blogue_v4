@@ -6,7 +6,7 @@ export default function AdminHeader({
     data: {userRole: string; userName: string}
 }) {
     return (
-        <header className="bg-gray-800 text-white py-2 w-full">
+        <header className="bg-gray-800 text-white py-2 w-full fixed left-0 top-0 z-10">
             <div className="flex items-center justify-between px-6">
                 <p>Hi {data.userName}!</p>
                 <div>

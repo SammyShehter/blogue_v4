@@ -9,9 +9,9 @@ export default function Loading() {
                     <article className="py-4">
                         <div className="w-96 h-8 animate-shimmer mb-2"></div>
                         <div
-                            className={`flex items-center justify-start space-x-2 text-sm text-gray-500 mb-2`}
+                            className={`flex items-center justify-start space-x-2 text-sm text-gray-800 mb-2`}
                         >
-                            <Calendar className="fill-gray-300" />
+                            <Calendar className="fill-gray-600" />
                             <div className="w-24 h-2 animate-shimmer"></div>
                         </div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>
@@ -20,9 +20,9 @@ export default function Loading() {
                     <article className="py-4">
                         <div className="w-96 h-8 animate-shimmer mb-2"></div>
                         <div
-                            className={`flex items-center justify-start space-x-2 text-sm text-gray-500 mb-2`}
+                            className={`flex items-center justify-start space-x-2 text-sm text-gray-800 mb-2`}
                         >
-                            <Calendar className="fill-gray-300" />
+                            <Calendar className="fill-gray-600" />
                             <div className="w-24 h-2 animate-shimmer"></div>
                         </div>
                         <div className="w-96 h-4 animate-shimmer mb-1"></div>

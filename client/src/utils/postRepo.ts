@@ -1,6 +1,6 @@
 import type {Post, Repo} from "../types/type"
 
-const posts: Array<Post> = []
+export const posts: Array<Post> = []
 const paginatedBatch = new Map<number, Array<Post>>()
 let maxBatch = 0
 
@@ -9,15 +9,19 @@ const headers = new Headers()
 headers.append("inner_request", "1")
 headers.append("Content-Type", "application/json")
 
+export async function removePostsCache() {
+    posts.length = 0
+}
+
 export async function fetchLatestPosts(): Promise<Repo> {
     try {
-        if(posts.length) return {status: "SUCCESS", data: posts}
+        if (posts.length) return {status: "SUCCESS", data: posts}
         const res = await fetch(`${blogueUrl}/api/posts`, {
             method: "GET",
             headers,
         })
         const parsedData: Repo = await res.json()
-        if(parsedData.status === "SUCCESS") {
+        if (parsedData.status === "SUCCESS") {
             posts.push(...parsedData.data)
         }
         return parsedData
@@ -71,7 +75,13 @@ export async function getPaginatedBatch(page: number): Promise<{
 }> {
     try {
         if (paginatedBatch.has(page)) {
-            return {status: "SUCCESS", data: {maxBatch, paginatedBatch: paginatedBatch.get(page) || []}}
+            return {
+                status: "SUCCESS",
+                data: {
+                    maxBatch,
+                    paginatedBatch: paginatedBatch.get(page) || [],
+                },
+            }
         }
         const res = await fetch(`${blogueUrl}/api/posts/paginated/${page}`, {
             method: "GET",
@@ -154,4 +164,30 @@ export async function editPost(
             },
         }
     }
+}
+
+export async function searchForPost(searchParam: string) {
+    if (!posts) {
+        console.log("posts is empty")
+        return []
+    }
+    console.log("searching now:", searchParam)
+    return posts.filter((post) => {
+        try {
+            return (
+                post.title?.toLowerCase().includes(searchParam) ||
+                post.category?.toLowerCase().includes(searchParam) ||
+                post.description?.toLowerCase().includes(searchParam) ||
+                post.content?.toLowerCase().includes(searchParam) ||
+                post.author?.toLowerCase().includes(searchParam) ||
+                post.slug?.toLowerCase().includes(searchParam) ||
+                post.date?.toLowerCase().includes(searchParam) ||
+                post.createdAt?.toLowerCase().includes(searchParam) ||
+                post.updatedAt?.toLowerCase().includes(searchParam)
+            )
+        } catch (error: any) {
+            console.log("Error in searchForPost: ", error.message)
+            return []
+        }
+    })
 }
