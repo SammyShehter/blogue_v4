@@ -50,7 +50,7 @@ const requestCounts: {
         startTime: number
     }
 } = {}
-const MAX_REQUESTS_PER_HOUR = 10
+const MAX_REQUESTS_PER_HOUR = 30
 const WINDOW_SIZE_IN_HOURS = 1
 const WINDOW_SIZE_IN_MS = WINDOW_SIZE_IN_HOURS * 60 * 60 * 1000
 

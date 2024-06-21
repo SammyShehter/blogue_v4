@@ -178,19 +178,52 @@ function SearchButton({searchTerm}: any) {
     )
 }
 
-function MobileMenu({ isMenuOpen, setIsMenuOpen, searchTerm, setSearchTerm, handleSearch, isSearching, searchResults, closeSearch, setIsSearching }: any) {
+function MobileMenu({
+    isMenuOpen,
+    setIsMenuOpen,
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    isSearching,
+    searchResults,
+    closeSearch,
+    setIsSearching,
+}: any) {
+    const searchRef = useRef(null)
+    const menuRef = useRef(null)
+
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (
+                searchRef.current &&
+                //@ts-ignore
+                !searchRef.current.contains(event.target) &&
+                menuRef.current &&
+                //@ts-ignore
+                !menuRef.current.contains(event.target)
+            ) {
+                setIsSearching(false)
+                setIsMenuOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [setIsSearching, setIsMenuOpen])
+
     return (
         <div
             className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ease-in-out ${
                 isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
-            onClick={() => setIsMenuOpen(false)}
         >
             <div
+                ref={menuRef}
                 className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-y-auto ${
                     isMenuOpen ? "translate-x-0" : "translate-x-full"
                 }`}
-                onClick={(e) => e.stopPropagation()}
             >
                 <div className="p-4 flex flex-col h-full">
                     <nav className="mt-8">
@@ -216,9 +249,9 @@ function MobileMenu({ isMenuOpen, setIsMenuOpen, searchTerm, setSearchTerm, hand
                         </Link>
                     </nav>
 
-                    <div className="mt-auto">
-                    {isSearching && (
-                            <div className="mt-2 bg-white rounded-lg shadow-md max-h-60 overflow-y-auto">
+                    <div className="mt-auto" ref={searchRef}>
+                        {isSearching && (
+                            <div className="mt-2 bg-white rounded-lg shadow-md max-h-60 overflow-y-auto mb-4">
                                 <SearchResults
                                     results={searchResults}
                                     onClose={closeSearch}

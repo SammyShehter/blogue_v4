@@ -88,7 +88,6 @@ export async function getPaginatedBatch(page: number): Promise<{
             headers,
         })
         const batch = await res.json()
-        console.log("batch: ", batch)
         if (batch.status === "SUCCESS") {
             paginatedBatch.set(page, batch.data.paginatedBatch)
             maxBatch = batch.data.maxBatch
